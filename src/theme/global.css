@@ -1,0 +1,42 @@
+.shadow-0 {
+  box-shadow: none;
+  --box-shadow: none;
+}
+.height-100 {
+  height: 100%;
+}
+.padding-0 {
+  --ion-grid-padding: 0;
+  padding: 0;
+}
+.btn-padd {
+  --padding-top: 30px;
+  --padding-bottom: 30px;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  --background: #f0f4f8;
+  --padding-start: 20px;
+  --padding-top: 20px;
+  --padding-end: 20px;
+  --padding-bottom: 20px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+.field ion-icon {
+  margin-left: 20px;
+}
+
+.field__error {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+}

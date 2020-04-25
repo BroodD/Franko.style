@@ -1,0 +1,7 @@
+{
+  "name": "FrankoFoods",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
