@@ -9,10 +9,9 @@ import {
   IonSlides,
   IonSlide,
   IonIcon,
-  useIonViewWillEnter
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
-import { setMenuEnabled } from "../data/sessions/sessions.actions";
 import { setHasSeenTutorial } from "../data/user/user.actions";
 import "./Tutorial.scss";
 import { connect } from "../data/connect";
@@ -22,31 +21,23 @@ interface OwnProps extends RouteComponentProps {}
 
 interface DispatchProps {
   setHasSeenTutorial: typeof setHasSeenTutorial;
-  setMenuEnabled: typeof setMenuEnabled;
 }
 
 interface TutorialProps extends OwnProps, DispatchProps {}
 
-const Tutorial: React.FC<TutorialProps> = ({
-  history,
-  setHasSeenTutorial,
-  setMenuEnabled
-}) => {
+const Tutorial: React.FC<TutorialProps> = ({ history, setHasSeenTutorial }) => {
   const [showSkip, setShowSkip] = useState(true);
   const slideRef = useRef<HTMLIonSlidesElement>(null);
 
-  useIonViewWillEnter(() => {
-    setMenuEnabled(false);
-  });
+  useIonViewWillEnter(() => {});
 
   const startApp = async () => {
     await setHasSeenTutorial(true);
-    await setMenuEnabled(true);
     history.push("/tabs/schedule", { direction: "none" });
   };
 
   const handleSlideChangeStart = () => {
-    slideRef.current!.isEnd().then(isEnd => setShowSkip(!isEnd));
+    slideRef.current!.isEnd().then((isEnd) => setShowSkip(!isEnd));
   };
 
   return (
@@ -132,7 +123,6 @@ const Tutorial: React.FC<TutorialProps> = ({
 export default connect<OwnProps, {}, DispatchProps>({
   mapDispatchToProps: {
     setHasSeenTutorial,
-    setMenuEnabled
   },
-  component: Tutorial
+  component: Tutorial,
 });

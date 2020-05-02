@@ -7,10 +7,12 @@ import {
 } from "../dataApi";
 import { ActionType } from "../../util/types";
 import { UserState } from "./user.state";
+import axios from "axios";
 
 export const loadUserData = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setLoading(true));
   const data = await getUserData();
+  axios.defaults.headers.common["authorization"] = data.token;
   dispatch(setData(data));
   dispatch(setLoading(false));
 };
@@ -32,9 +34,7 @@ export const logoutUser = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setUsername());
 };
 
-export const setIsLoggedIn = (loggedIn: boolean) => async (
-  dispatch: React.Dispatch<any>
-) => {
+export const setIsLoggedIn = (loggedIn: boolean) => async () => {
   await setIsLoggedInData(loggedIn);
   return {
     type: "set-is-loggedin",
@@ -46,9 +46,10 @@ export const setUserProfile = (data: Partial<UserState>) => async (
   dispatch: React.Dispatch<any>
 ) => {
   await setUserProfileData(data);
-  dispatch(loadUserData);
+  // dispatch(loadUserData);
+  axios.defaults.headers.common["authorization"] = data.token;
   return {
-    type: "set-username",
+    type: "set-user-data",
     data,
   } as const;
 };
@@ -63,9 +64,7 @@ export const setUsername = (username?: string) => async (
   } as const;
 };
 
-export const setHasSeenTutorial = (hasSeenTutorial: boolean) => async (
-  dispatch: React.Dispatch<any>
-) => {
+export const setHasSeenTutorial = (hasSeenTutorial: boolean) => async () => {
   await setHasSeenTutorialData(hasSeenTutorial);
   return {
     type: "set-has-seen-tutorial",

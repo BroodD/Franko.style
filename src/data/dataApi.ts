@@ -3,6 +3,7 @@ import { Schedule, Session } from "../models/Schedule";
 import { Speaker } from "../models/Speaker";
 import { Location } from "../models/Location";
 import { UserState } from "./user/user.state";
+import ProductService from "../services/product";
 
 const { Storage } = Plugins;
 
@@ -46,12 +47,12 @@ export const getUserData = async () => {
   ]);
   const isLoggedin = (await response[0].value) === "true";
   const hasSeenTutorial = (await response[1].value) === "true";
-  const username = (await response[2].value) || undefined;
+  // const username = (await response[2].value) || undefined;
   const token = (await response[3].value) || undefined;
   const data = {
     isLoggedin,
     hasSeenTutorial,
-    username,
+    // username,
     token,
   };
   return data;
@@ -83,6 +84,21 @@ export const setUsernameData = async (username?: string) => {
   } else {
     await Storage.set({ key: USERNAME, value: username });
   }
+};
+
+export const loadProductsData = async (page: number = 1) => {
+  const res = await ProductService.getProducts({ page });
+  return res.data.products;
+};
+
+export const loadLovedProductsData = async (page: number = 1) => {
+  const res = await ProductService.getLovedProducts({ page });
+  return res.data.products;
+};
+
+export const putLovedProduct = async (id: number) => {
+  const res = await ProductService.putLovedProduct({ id });
+  return res.data;
 };
 
 function parseSessions(schedule: Schedule) {

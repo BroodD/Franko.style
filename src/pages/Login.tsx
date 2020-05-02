@@ -15,7 +15,6 @@ import "./Login.scss";
 import { setIsLoggedIn, setUserProfile } from "../data/user/user.actions";
 import { connect } from "../data/connect";
 import { RouteComponentProps } from "react-router";
-import { setMenuEnabled } from "../data/sessions/sessions.actions";
 import { mailOutline, lockClosedOutline, arrowForward } from "ionicons/icons";
 import { Link } from "react-router-dom";
 import AuthService from "../services/auth";
@@ -25,7 +24,6 @@ interface OwnProps extends RouteComponentProps {}
 interface DispatchProps {
   setIsLoggedIn: typeof setIsLoggedIn;
   setUserProfile: typeof setUserProfile;
-  setMenuEnabled: typeof setMenuEnabled;
 }
 
 interface LoginProps extends OwnProps, DispatchProps {}
@@ -33,10 +31,9 @@ interface LoginProps extends OwnProps, DispatchProps {}
 const Login: React.FC<LoginProps> = ({
   setIsLoggedIn,
   history,
-  setMenuEnabled,
   setUserProfile,
 }) => {
-  const [email, setEmail] = useState("noadmin@gmail.com");
+  const [email, setEmail] = useState("admin@gmail.com");
   const [password, setPassword] = useState("123456");
   const [errors, setErrors] = useState({ email: "", password: "", msg: "" });
 
@@ -49,12 +46,11 @@ const Login: React.FC<LoginProps> = ({
         password,
       });
 
-      await setIsLoggedIn(true);
       await setUserProfile({
         ...user.data.user,
         token: user.data.token,
       });
-      await setMenuEnabled(true);
+      await setIsLoggedIn(true);
       history.push("/home", { direction: "none" });
     } catch (err) {
       if (
@@ -182,7 +178,6 @@ export default connect<OwnProps, {}, DispatchProps>({
   mapDispatchToProps: {
     setIsLoggedIn,
     setUserProfile,
-    setMenuEnabled,
   },
   component: Login,
 });

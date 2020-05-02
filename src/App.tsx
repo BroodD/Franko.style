@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
@@ -10,7 +10,6 @@ import {
   IonIcon,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-
 import Menu from "./components/Menu";
 
 /* Core CSS required for Ionic components to work properly */
@@ -49,8 +48,12 @@ import Loved from "./pages/Loved";
 import Cart from "./pages/Cart";
 import Tutorial from "./pages/Tutorial";
 import HomeOrTutorial from "./components/HomeOrTutorial";
-import { Schedule } from "./models/Schedule";
-import { home, cart, heart, person } from "ionicons/icons";
+import {
+  homeOutline,
+  heartOutline,
+  personOutline,
+  cartOutline,
+} from "ionicons/icons";
 
 const App: React.FC = () => {
   return (
@@ -61,7 +64,6 @@ const App: React.FC = () => {
 };
 
 interface StateProps {
-  schedule: Schedule;
   user: any;
 }
 
@@ -95,8 +97,6 @@ interface IonicAppProps extends StateProps, DispatchProps {}
 // }
 
 const IonicApp: React.FC<IonicAppProps> = ({
-  schedule,
-  user,
   setIsLoggedIn,
   setUserProfile,
   loadConfData,
@@ -108,9 +108,7 @@ const IonicApp: React.FC<IonicAppProps> = ({
     // eslint-disable-next-line
   }, []);
 
-  return schedule.groups.length === 0 ? (
-    <div></div>
-  ) : (
+  return (
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
@@ -134,20 +132,20 @@ const IonicApp: React.FC<IonicAppProps> = ({
                 }}
               />
               <Route path="/" component={HomeOrTutorial} exact />
-              <Route path="*" component={HomeOrTutorial} />
+              {/* <Route path="*" component={HomeOrTutorial} /> */}
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="home" href="/home">
-                <IonIcon icon={home} />
+                <IonIcon icon={homeOutline} />
               </IonTabButton>
               <IonTabButton tab="cart" href="/cart">
-                <IonIcon icon={cart} />
+                <IonIcon icon={cartOutline} />
               </IonTabButton>
               <IonTabButton tab="map" href="/loved">
-                <IonIcon icon={heart} />
+                <IonIcon icon={heartOutline} />
               </IonTabButton>
               <IonTabButton tab="account" href="/account">
-                <IonIcon icon={person} />
+                <IonIcon icon={personOutline} />
               </IonTabButton>
             </IonTabBar>
           </IonTabs>
@@ -161,7 +159,6 @@ export default App;
 
 const IonicAppConnected = connect<{}, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    schedule: state.data.schedule,
     user: state.user,
   }),
   mapDispatchToProps: {

@@ -55,18 +55,13 @@ interface Pages {
 }
 interface StateProps {
   isAuthenticated: boolean;
-  menuEnabled: boolean;
 }
 
 interface DispatchProps {}
 
 interface MenuProps extends RouteComponentProps, StateProps, DispatchProps {}
 
-const Menu: React.FC<MenuProps> = ({
-  history,
-  isAuthenticated,
-  menuEnabled,
-}) => {
+const Menu: React.FC<MenuProps> = ({ history, isAuthenticated }) => {
   const location = useLocation();
 
   function renderlistItems(list: Pages[]) {
@@ -90,7 +85,6 @@ const Menu: React.FC<MenuProps> = ({
   }
 
   return (
-    //  disabled={!menuEnabled}
     <IonMenu type="overlay" contentId="main">
       <IonContent forceOverscroll={false}>
         <IonList lines="none">
@@ -123,7 +117,6 @@ const Menu: React.FC<MenuProps> = ({
 export default connect<{}, StateProps, {}>({
   mapStateToProps: (state) => ({
     isAuthenticated: state.user.isLoggedin,
-    menuEnabled: state.data.menuEnabled,
   }),
   mapDispatchToProps: {},
   component: withRouter(Menu),
