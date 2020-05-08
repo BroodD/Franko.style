@@ -2,7 +2,9 @@ import {
   getConfData,
   loadLovedProductsData,
   putLovedProduct,
+  putCartProduct,
   loadProductsData,
+  loadCartProductsData,
 } from "../dataApi";
 import { ActionType } from "../../util/types";
 import { ConfState } from "./conf.state";
@@ -22,6 +24,7 @@ export const loadProducts = (page: number = 1, clear?: boolean) => async (
   return {
     type: "set-products-data",
     data,
+    page,
     clear,
   } as const;
 };
@@ -32,21 +35,45 @@ export const setProductsPage = (page: number) =>
     page,
   } as const);
 
-export const loadLovedProducts = (page: number = 1, clear?: boolean) => async (
-  dispatch: React.Dispatch<any>
-) => {
-  const data = await loadLovedProductsData(page);
-  if (data && data.length) await dispatch(setLovedPage(page + 1));
+export const loadLovedProducts = (
+  offset: number = 1,
+  clear?: boolean
+) => async () => {
+  let data;
+  if (clear) {
+    data = [];
+  } else {
+    data = await loadLovedProductsData(offset);
+  }
   return {
     type: "set-loved-data",
     data,
+    offset,
+    clear,
+  } as const;
+};
+
+export const loadCartProducts = (
+  offset: number = 1,
+  clear?: boolean
+) => async () => {
+  let data;
+  if (clear) {
+    data = [];
+  } else {
+    data = await loadCartProductsData(offset);
+  }
+  return {
+    type: "set-cart-data",
+    data,
+    offset,
     clear,
   } as const;
 };
 
 export const addOrRemoveLoved = (id: number) => async () => {
   const data = await putLovedProduct(id);
-  console.log("--- data add or", data);
+  console.log("--- data add or", data, id);
   return {
     type: "add-or-remove-loved",
     id,
@@ -54,11 +81,21 @@ export const addOrRemoveLoved = (id: number) => async () => {
   } as const;
 };
 
-export const setLovedPage = (page: number) =>
-  ({
-    type: "set-loved-page",
-    page,
-  } as const);
+export const addOrRemoveCart = (id: number) => async () => {
+  const data = await putCartProduct(id);
+  console.log("--- data add or", data, id);
+  return {
+    type: "add-or-remove-cart",
+    id,
+    data,
+  } as const;
+};
+
+// export const setLovedPage = (page: number) =>
+//   ({
+//     type: "set-loved-page",
+//     page,
+//   } as const);
 
 export const setLoading = (isLoading: boolean) =>
   ({
@@ -102,8 +139,9 @@ export type SessionsActions =
   | ActionType<typeof loadProducts>
   | ActionType<typeof setProductsPage>
   | ActionType<typeof loadLovedProducts>
+  | ActionType<typeof loadCartProducts>
   | ActionType<typeof addOrRemoveLoved>
-  | ActionType<typeof setLovedPage>
+  | ActionType<typeof addOrRemoveCart>
   | ActionType<typeof addFavorite>
   | ActionType<typeof removeFavorite>
   | ActionType<typeof updateFilteredTracks>

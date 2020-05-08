@@ -8,6 +8,7 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
 } from "@ionic/react";
+import Sprint from "../components/Sprint";
 import { connect } from "../data/connect";
 import ProductCard from "../components/ProductCard";
 import { RouteComponentProps } from "react-router";
@@ -39,14 +40,15 @@ const Home: React.FC<LovedProps> = ({
   };
 
   useEffect(() => {
-    loadProducts(productsPage, true);
-  }, [isLoggedin]);
+    loadProducts(1, true);
+  }, [isLoggedin, loadProducts]);
 
   return (
     <IonPage>
       {/* <IonContent scrollEvents={true} onIonScrollEnd={handleScrollEnd}> */}
       <IonContent>
-        <h1>loved</h1>
+        <p className="page__title">Franko shop</p>
+        <Sprint />
         <IonGrid>
           <IonRow>
             {products.map((p) => (

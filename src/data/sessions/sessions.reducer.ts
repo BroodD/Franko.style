@@ -16,34 +16,47 @@ export const sessionsReducer = (
       return { ...state, productsPage: action.page };
     }
     case "set-products-data": {
-      return action.clear
+      return action.clear || action.page === 1
         ? { ...state, products: action.data }
         : { ...state, products: state.products.concat(action.data) };
     }
     case "set-loved-data": {
-      return action.clear
+      return action.clear || action.offset === 0
         ? { ...state, loved: action.data }
         : { ...state, loved: state.loved.concat(action.data) };
+    }
+    case "set-cart-data": {
+      return action.clear || action.offset === 0
+        ? { ...state, cart: action.data }
+        : { ...state, cart: state.cart.concat(action.data) };
     }
     case "add-or-remove-loved": {
       return action.data.action
         ? {
             ...state,
-            loved: [...state.loved, action.data.product],
+            loved: [action.data.product, ...state.loved],
             products: state.products.map((p) => {
-              return p.id == action.id ? { ...p, loved: true } : p;
+              return p.id === action.id ? { ...p, loved: true } : p;
             }),
           }
         : {
             ...state,
             loved: state.loved.filter((x) => x.id !== action.id),
             products: state.products.map((p) => {
-              return p.id == action.id ? { ...p, loved: false } : p;
+              return p.id === action.id ? { ...p, loved: false } : p;
             }),
           };
     }
-    case "set-loved-page": {
-      return { ...state, lovedPage: action.page };
+    case "add-or-remove-cart": {
+      return action.data.action
+        ? {
+            ...state,
+            cart: [action.data.product, ...state.cart],
+          }
+        : {
+            ...state,
+            cart: state.cart.filter((x) => x.id !== action.id),
+          };
     }
     case "add-favorite": {
       return { ...state, favorites: [...state.favorites, action.sessionId] };

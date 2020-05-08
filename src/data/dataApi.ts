@@ -91,13 +91,23 @@ export const loadProductsData = async (page: number = 1) => {
   return res.data.products;
 };
 
-export const loadLovedProductsData = async (page: number = 1) => {
-  const res = await ProductService.getLovedProducts({ page });
+export const loadLovedProductsData = async (offset: number = 0) => {
+  const res = await ProductService.getLovedProducts({ offset });
+  return res.data.products;
+};
+
+export const loadCartProductsData = async (offset: number = 0) => {
+  const res = await ProductService.getCartProducts({ offset });
   return res.data.products;
 };
 
 export const putLovedProduct = async (id: number) => {
   const res = await ProductService.putLovedProduct({ id });
+  return res.data;
+};
+
+export const putCartProduct = async (id: number) => {
+  const res = await ProductService.putCartProduct({ id });
   return res.data;
 };
 

@@ -11,7 +11,7 @@ export const initialState: AppState = {
     products: [],
     productsPage: 1,
     loved: [],
-    lovedPage: 1,
+    cart: [],
     locations: [],
     allTracks: [],
     filteredTracks: [],

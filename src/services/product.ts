@@ -10,7 +10,13 @@ export default {
   getLovedProducts(params: any) {
     return api().get(`products/loved`, { params });
   },
+  getCartProducts(params: any) {
+    return api().get(`products/cart`, { params });
+  },
   putLovedProduct(params: any) {
     return api().put(`products/${params.id}/loved`, { params });
+  },
+  putCartProduct(params: any) {
+    return api().put(`products/${params.id}/cart`, { params });
   },
 };

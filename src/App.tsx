@@ -46,6 +46,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Loved from "./pages/Loved";
 import Cart from "./pages/Cart";
+import Product from "./pages/Product";
 import Tutorial from "./pages/Tutorial";
 import HomeOrTutorial from "./components/HomeOrTutorial";
 import {
@@ -123,6 +124,7 @@ const IonicApp: React.FC<IonicAppProps> = ({
               <Route path="/cart" component={Cart} />
               <Route path="/loved" component={Loved} />
               <Route path="/account" component={Account} />
+              <Route path="/product/:id" component={Product} />
               <Route
                 path="/logout"
                 render={() => {

@@ -9,7 +9,7 @@ export interface ConfState {
   products: any[];
   productsPage: number;
   loved: any[];
-  lovedPage: number;
+  cart: any[];
   locations: Location[];
   filteredTracks: string[];
   searchText?: string;

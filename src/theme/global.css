@@ -41,6 +41,19 @@ a {
   text-decoration: none;
 }
 
-.scrolled {
-  width: 2000px;
+.product__loved {
+  --background: transparent;
+  --box-shadow: none;
+}
+.product__loved.active {
+  --color: var(--ion-color-primary);
+}
+
+.page__title {
+  background: gainsboro;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  color: #262626;
+  font-size: 16px;
 }

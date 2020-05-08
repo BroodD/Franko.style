@@ -8,10 +8,11 @@ import {
   IonFabButton,
   IonFab,
 } from "@ionic/react";
-import "./ProductCard.css";
+import "./index.css";
 import { heartOutline, heart } from "ionicons/icons";
 import { connect } from "../../data/connect";
 import { addOrRemoveLoved } from "../../data/sessions/sessions.actions";
+import { Link } from "react-router-dom";
 
 interface OwnProps {
   id: number;
@@ -50,14 +51,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {loved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
         </IonFabButton>
       </IonFab>
-      <IonImg src="assets/img/product_1.jpg" />
-      <IonCardHeader className="product__header">
-        <IonCardTitle className="product__title">{name}</IonCardTitle>
-        <IonCardSubtitle className="product__size">xs, s, m, l</IonCardSubtitle>
-        <IonCardTitle className="product__price">
-          559 грн <del>1400 грн</del>
-        </IonCardTitle>
-      </IonCardHeader>
+      <Link to={"/product/" + id}>
+        <IonImg src="assets/img/product_1.jpg" />
+        <IonCardHeader className="product__header">
+          <IonCardTitle className="product__title">{name}</IonCardTitle>
+          <IonCardSubtitle className="product__size">
+            xs, s, m, l
+          </IonCardSubtitle>
+          <IonCardTitle className="product__price">
+            559 грн <del>1400 грн</del>
+          </IonCardTitle>
+        </IonCardHeader>
+      </Link>
     </div>
   );
 };

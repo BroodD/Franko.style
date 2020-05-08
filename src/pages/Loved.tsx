@@ -17,7 +17,6 @@ interface OwnProps extends RouteComponentProps {}
 
 interface StateProps {
   products: any[];
-  lovedPage: number;
   isLoggedin: boolean;
 }
 
@@ -29,24 +28,23 @@ interface LovedProps extends OwnProps, StateProps, DispatchProps {}
 
 const Loved: React.FC<LovedProps> = ({
   products,
-  lovedPage,
   isLoggedin,
   loadLovedProducts,
 }) => {
   const handleScrollEnd = async (e: any) => {
-    await loadLovedProducts(lovedPage);
+    await loadLovedProducts(products.length);
     e.target.complete();
   };
 
   useEffect(() => {
-    if (isLoggedin) loadLovedProducts(lovedPage, true);
-  }, [isLoggedin]);
+    loadLovedProducts(0, !isLoggedin);
+  }, [isLoggedin, loadLovedProducts]);
 
   return (
     <IonPage>
       {/* <IonContent scrollEvents={true} onIonScrollEnd={handleScrollEnd}> */}
       <IonContent>
-        <h1>loved</h1>
+        <p className="page__title">Вибране</p>
         <IonGrid>
           <IonRow>
             {products.map((p) => (
@@ -68,7 +66,6 @@ const Loved: React.FC<LovedProps> = ({
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
     products: state.data.loved,
-    lovedPage: state.data.lovedPage,
     isLoggedin: state.user.isLoggedin,
   }),
   mapDispatchToProps: {
