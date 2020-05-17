@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonCardHeader,
   IonCardSubtitle,
@@ -11,7 +11,10 @@ import {
 import "./index.css";
 import { heartOutline, heart } from "ionicons/icons";
 import { connect } from "../../data/connect";
-import { addOrRemoveLoved } from "../../data/sessions/sessions.actions";
+import {
+  addOrRemoveLoved,
+  setError,
+} from "../../data/sessions/sessions.actions";
 import { Link } from "react-router-dom";
 
 interface OwnProps {
@@ -20,12 +23,13 @@ interface OwnProps {
   loved: boolean;
 }
 
-interface OwnProps {}
-
-interface StateProps {}
+interface StateProps {
+  isLoggedin: boolean;
+}
 
 interface DispatchProps {
   addOrRemoveLoved: typeof addOrRemoveLoved;
+  setError: typeof setError;
 }
 
 interface ProductCardProps extends OwnProps, StateProps, DispatchProps {}
@@ -34,21 +38,38 @@ const ProductCard: React.FC<ProductCardProps> = ({
   id,
   name,
   loved,
+  isLoggedin,
   addOrRemoveLoved,
+  setError,
 }) => {
+  const [isLoved, setIsLoved] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log("--- useEffect productCard");
+    setIsLoved(loved);
+    return () => {
+      console.log("--- destroy productCard");
+    };
+  }, [loved]);
+
   return (
     <div className="product">
       <IonFab
         vertical="top"
         horizontal="end"
         slot="fixed"
-        onClick={() => addOrRemoveLoved(id)}
+        onClick={() => {
+          if (isLoggedin) {
+            addOrRemoveLoved(id);
+            setIsLoved(!isLoved);
+          } else setError("you_are_not_authorized");
+        }}
       >
         <IonFabButton
           size="small"
-          className={loved ? "product__loved active" : "product__loved"}
+          className={isLoved ? "product__loved active" : "product__loved"}
         >
-          {loved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
+          {isLoved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
         </IonFabButton>
       </IonFab>
       <Link to={"/product/" + id}>
@@ -68,8 +89,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
 };
 
 export default connect<OwnProps, StateProps, DispatchProps>({
+  mapStateToProps: (state) => ({
+    isLoggedin: state.user.isLoggedin,
+  }),
   mapDispatchToProps: {
     addOrRemoveLoved,
+    setError,
   },
   component: ProductCard,
 });

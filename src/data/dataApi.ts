@@ -4,6 +4,7 @@ import { Speaker } from "../models/Speaker";
 import { Location } from "../models/Location";
 import { UserState } from "./user/user.state";
 import ProductService from "../services/product";
+import CategoryService from "../services/category";
 
 const { Storage } = Plugins;
 
@@ -12,6 +13,7 @@ const locationsUrl = "/assets/data/locations.json";
 
 const HAS_LOGGED_IN = "hasLoggedIn";
 const HAS_SEEN_TUTORIAL = "hasSeenTutorial";
+const LANG = "lang";
 const USERNAME = "username";
 const TOKEN = "token";
 
@@ -42,17 +44,17 @@ export const getUserData = async () => {
   const response = await Promise.all([
     Storage.get({ key: HAS_LOGGED_IN }),
     Storage.get({ key: HAS_SEEN_TUTORIAL }),
-    Storage.get({ key: USERNAME }),
+    Storage.get({ key: LANG }),
     Storage.get({ key: TOKEN }),
   ]);
   const isLoggedin = (await response[0].value) === "true";
   const hasSeenTutorial = (await response[1].value) === "true";
-  // const username = (await response[2].value) || undefined;
+  const lang = (await response[2].value) || "uk";
   const token = (await response[3].value) || undefined;
   const data = {
     isLoggedin,
     hasSeenTutorial,
-    // username,
+    lang,
     token,
   };
   return data;
@@ -66,6 +68,13 @@ export const setHasSeenTutorialData = async (hasSeenTutorial: boolean) => {
   await Storage.set({
     key: HAS_SEEN_TUTORIAL,
     value: JSON.stringify(hasSeenTutorial),
+  });
+};
+
+export const setLangData = async (lang: string) => {
+  await Storage.set({
+    key: LANG,
+    value: lang,
   });
 };
 
@@ -89,6 +98,11 @@ export const setUsernameData = async (username?: string) => {
 export const loadProductsData = async (page: number = 1) => {
   const res = await ProductService.getProducts({ page });
   return res.data.products;
+};
+
+export const loadCategoriesData = async () => {
+  const res = await CategoryService.getCategories();
+  return res.data.categories;
 };
 
 export const loadLovedProductsData = async (offset: number = 0) => {

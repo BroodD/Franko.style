@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
@@ -8,6 +8,7 @@ import {
   IonTabBar,
   IonTabButton,
   IonIcon,
+  IonToast,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Menu from "./components/Menu";
@@ -41,20 +42,25 @@ import {
   setUserProfile,
   loadUserData,
 } from "./data/user/user.actions";
-import Account from "./pages/Account";
+import More from "./pages/More";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Loved from "./pages/Loved";
 import Cart from "./pages/Cart";
+import Account from "./pages/Account";
 import Product from "./pages/Product";
 import Tutorial from "./pages/Tutorial";
+import Categories from "./pages/Categories";
+import Category from "./pages/Category";
 import HomeOrTutorial from "./components/HomeOrTutorial";
+import ErrorToast from "./components/ErrorToast";
 import {
   homeOutline,
   heartOutline,
-  personOutline,
+  ellipsisHorizontal,
   cartOutline,
 } from "ionicons/icons";
+import { useTranslation } from "react-i18next";
 
 const App: React.FC = () => {
   return (
@@ -65,7 +71,8 @@ const App: React.FC = () => {
 };
 
 interface StateProps {
-  user: any;
+  loading: boolean;
+  stateLang: string;
 }
 
 interface DispatchProps {
@@ -98,22 +105,29 @@ interface IonicAppProps extends StateProps, DispatchProps {}
 // }
 
 const IonicApp: React.FC<IonicAppProps> = ({
+  loading,
+  stateLang,
   setIsLoggedIn,
   setUserProfile,
-  loadConfData,
   loadUserData,
 }) => {
+  const [t, i18n] = useTranslation();
   useEffect(() => {
     loadUserData();
-    loadConfData();
-    // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    i18n.changeLanguage(stateLang);
+  }, [stateLang]);
 
-  return (
+  return loading ? (
+    <div></div>
+  ) : (
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
           <Menu />
+
+          <ErrorToast />
 
           <IonTabs>
             <IonRouterOutlet id="main">
@@ -123,7 +137,10 @@ const IonicApp: React.FC<IonicAppProps> = ({
               <Route path="/home" component={Home} />
               <Route path="/cart" component={Cart} />
               <Route path="/loved" component={Loved} />
+              <Route path="/more" component={More} />
               <Route path="/account" component={Account} />
+              <Route path="/categories" component={Categories} />
+              <Route path="/category/:id" component={Category} exact />
               <Route path="/product/:id" component={Product} />
               <Route
                 path="/logout"
@@ -146,8 +163,8 @@ const IonicApp: React.FC<IonicAppProps> = ({
               <IonTabButton tab="map" href="/loved">
                 <IonIcon icon={heartOutline} />
               </IonTabButton>
-              <IonTabButton tab="account" href="/account">
-                <IonIcon icon={personOutline} />
+              <IonTabButton tab="more" href="/more">
+                <IonIcon icon={ellipsisHorizontal} />
               </IonTabButton>
             </IonTabBar>
           </IonTabs>
@@ -161,7 +178,8 @@ export default App;
 
 const IonicAppConnected = connect<{}, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    user: state.user,
+    loading: state.user.loading,
+    stateLang: state.user.lang,
   }),
   mapDispatchToProps: {
     loadConfData,

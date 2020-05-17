@@ -4,14 +4,16 @@ import { userReducer } from "./user/user.reducer";
 
 export const initialState: AppState = {
   data: {
+    loved: [],
+    cart: [],
+    products: [],
+    productsPage: 1,
+    error: "",
+    categories: [],
     schedule: { groups: [] } as any,
     sessions: [],
     speakers: [],
     favorites: [],
-    products: [],
-    productsPage: 1,
-    loved: [],
-    cart: [],
     locations: [],
     allTracks: [],
     filteredTracks: [],
@@ -22,6 +24,7 @@ export const initialState: AppState = {
     hasSeenTutorial: false,
     isLoggedin: false,
     loading: false,
+    lang: "uk",
   },
 };
 

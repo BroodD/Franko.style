@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import {
   IonPage,
   IonContent,
@@ -12,6 +12,7 @@ import { connect } from "../data/connect";
 import ProductCard from "../components/ProductCard";
 import { RouteComponentProps } from "react-router";
 import { loadCartProducts } from "../data/sessions/sessions.actions";
+import ErrorPage from "../components/ErrorPage";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -45,19 +46,25 @@ const Loved: React.FC<LovedProps> = ({
       {/* <IonContent scrollEvents={true} onIonScrollEnd={handleScrollEnd}> */}
       <IonContent>
         <p className="page__title">Кошик</p>
-        <IonGrid>
-          <IonRow>
-            {products.map((p) => (
-              <IonCol size="6" key={p.id}>
-                <ProductCard id={p.id} name={p.name} loved={true} />
-              </IonCol>
-            ))}
-          </IonRow>
-        </IonGrid>
+        {isLoggedin ? (
+          <Fragment>
+            <IonGrid>
+              <IonRow>
+                {products.map((p) => (
+                  <IonCol size="6" key={p.id}>
+                    <ProductCard id={p.id} name={p.name} loved={true} />
+                  </IonCol>
+                ))}
+              </IonRow>
+            </IonGrid>
 
-        <IonInfiniteScroll onIonInfinite={handleScrollEnd}>
-          <IonInfiniteScrollContent></IonInfiniteScrollContent>
-        </IonInfiniteScroll>
+            <IonInfiniteScroll onIonInfinite={handleScrollEnd}>
+              <IonInfiniteScrollContent></IonInfiniteScrollContent>
+            </IonInfiniteScroll>
+          </Fragment>
+        ) : (
+          <ErrorPage error="you_are_not_authorized" />
+        )}
       </IonContent>
     </IonPage>
   );

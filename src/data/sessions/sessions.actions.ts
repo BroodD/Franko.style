@@ -1,32 +1,34 @@
 import {
-  getConfData,
   loadLovedProductsData,
   putLovedProduct,
   putCartProduct,
   loadProductsData,
   loadCartProductsData,
+  loadCategoriesData,
 } from "../dataApi";
 import { ActionType } from "../../util/types";
 import { ConfState } from "./conf.state";
 
-export const loadConfData = () => async (dispatch: React.Dispatch<any>) => {
-  dispatch(setLoading(true));
-  const data = await getConfData();
-  dispatch(setData(data));
-  dispatch(setLoading(false));
-};
+export const loadConfData = () => async (dispatch: React.Dispatch<any>) => {};
 
 export const loadProducts = (page: number = 1, clear?: boolean) => async (
   dispatch: React.Dispatch<any>
 ) => {
-  const data = await loadProductsData(page);
-  if (data && data.length) await dispatch(setProductsPage(page + 1));
-  return {
-    type: "set-products-data",
-    data,
-    page,
-    clear,
-  } as const;
+  try {
+    const data = await loadProductsData(page);
+    if (data && data.length) await dispatch(setProductsPage(page + 1));
+    return {
+      type: "set-products-data",
+      data,
+      page,
+      clear,
+    } as const;
+  } catch (error) {
+    return {
+      type: "set-error",
+      error,
+    } as const;
+  }
 };
 
 export const setProductsPage = (page: number) =>
@@ -35,50 +37,88 @@ export const setProductsPage = (page: number) =>
     page,
   } as const);
 
+export const loadCategories = () => async () => {
+  try {
+    const data = await loadCategoriesData();
+    return {
+      type: "set-categories-data",
+      data,
+    } as const;
+  } catch (error) {
+    return {
+      type: "set-error",
+      error,
+    } as const;
+  }
+};
+
 export const loadLovedProducts = (
   offset: number = 1,
   clear?: boolean
-) => async () => {
-  let data;
-  if (clear) {
-    data = [];
-  } else {
-    data = await loadLovedProductsData(offset);
+) => async (dispatch: React.Dispatch<any>) => {
+  try {
+    let data;
+    if (clear) {
+      data = [];
+    } else {
+      data = await loadLovedProductsData(offset);
+    }
+    return {
+      type: "set-loved-data",
+      data,
+      offset,
+      clear,
+    } as const;
+  } catch (error) {
+    return {
+      type: "set-error",
+      error,
+    } as const;
   }
-  return {
-    type: "set-loved-data",
-    data,
-    offset,
-    clear,
-  } as const;
 };
 
 export const loadCartProducts = (
   offset: number = 1,
   clear?: boolean
 ) => async () => {
-  let data;
-  if (clear) {
-    data = [];
-  } else {
-    data = await loadCartProductsData(offset);
+  try {
+    let data;
+    if (clear) {
+      data = [];
+    } else {
+      data = await loadCartProductsData(offset);
+    }
+    return {
+      type: "set-cart-data",
+      data,
+      offset,
+      clear,
+    } as const;
+  } catch (error) {
+    return {
+      type: "set-error",
+      error,
+    } as const;
   }
-  return {
-    type: "set-cart-data",
-    data,
-    offset,
-    clear,
-  } as const;
 };
 
-export const addOrRemoveLoved = (id: number) => async () => {
-  const data = await putLovedProduct(id);
-  console.log("--- data add or", data, id);
-  return {
-    type: "add-or-remove-loved",
-    id,
-    data,
-  } as const;
+export const addOrRemoveLoved = (id: number) => async (
+  dispatch: React.Dispatch<any>
+) => {
+  try {
+    const data = await putLovedProduct(id);
+    return {
+      type: "add-or-remove-loved",
+      id,
+      data,
+    } as const;
+  } catch (error) {
+    console.dir(error);
+    return {
+      type: "set-error",
+      error,
+    } as const;
+  }
 };
 
 export const addOrRemoveCart = (id: number) => async () => {
@@ -91,11 +131,11 @@ export const addOrRemoveCart = (id: number) => async () => {
   } as const;
 };
 
-// export const setLovedPage = (page: number) =>
-//   ({
-//     type: "set-loved-page",
-//     page,
-//   } as const);
+export const setError = (error: string) =>
+  ({
+    type: "set-error",
+    error,
+  } as const);
 
 export const setLoading = (isLoading: boolean) =>
   ({
@@ -138,10 +178,12 @@ export type SessionsActions =
   | ActionType<typeof setData>
   | ActionType<typeof loadProducts>
   | ActionType<typeof setProductsPage>
+  | ActionType<typeof loadCategories>
   | ActionType<typeof loadLovedProducts>
   | ActionType<typeof loadCartProducts>
   | ActionType<typeof addOrRemoveLoved>
   | ActionType<typeof addOrRemoveCart>
+  | ActionType<typeof setError>
   | ActionType<typeof addFavorite>
   | ActionType<typeof removeFavorite>
   | ActionType<typeof updateFilteredTracks>

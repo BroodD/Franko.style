@@ -1,9 +1,9 @@
 import {
   getUserData,
   setIsLoggedInData,
-  setUsernameData,
   setUserProfileData,
   setHasSeenTutorialData,
+  setLangData,
 } from "../dataApi";
 import { ActionType } from "../../util/types";
 import { UserState } from "./user.state";
@@ -31,7 +31,6 @@ export const setData = (data: Partial<UserState>) =>
 
 export const logoutUser = () => async (dispatch: React.Dispatch<any>) => {
   await setIsLoggedInData(false);
-  dispatch(setUsername());
 };
 
 export const setIsLoggedIn = (loggedIn: boolean) => async () => {
@@ -54,16 +53,6 @@ export const setUserProfile = (data: Partial<UserState>) => async (
   } as const;
 };
 
-export const setUsername = (username?: string) => async (
-  dispatch: React.Dispatch<any>
-) => {
-  await setUsernameData(username);
-  return {
-    type: "set-username",
-    username,
-  } as const;
-};
-
 export const setHasSeenTutorial = (hasSeenTutorial: boolean) => async () => {
   await setHasSeenTutorialData(hasSeenTutorial);
   return {
@@ -72,9 +61,17 @@ export const setHasSeenTutorial = (hasSeenTutorial: boolean) => async () => {
   } as const;
 };
 
+export const setLang = (lang: string) => async () => {
+  await setLangData(lang);
+  return {
+    type: "set-lang",
+    lang,
+  } as const;
+};
+
 export type UserActions =
   | ActionType<typeof setLoading>
   | ActionType<typeof setData>
   | ActionType<typeof setIsLoggedIn>
-  | ActionType<typeof setUsername>
-  | ActionType<typeof setHasSeenTutorial>;
+  | ActionType<typeof setHasSeenTutorial>
+  | ActionType<typeof setLang>;

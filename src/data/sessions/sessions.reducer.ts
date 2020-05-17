@@ -15,6 +15,9 @@ export const sessionsReducer = (
     case "set-products-page": {
       return { ...state, productsPage: action.page };
     }
+    case "set-categories-data": {
+      return { ...state, categories: action.data };
+    }
     case "set-products-data": {
       return action.clear || action.page === 1
         ? { ...state, products: action.data }
@@ -31,21 +34,24 @@ export const sessionsReducer = (
         : { ...state, cart: state.cart.concat(action.data) };
     }
     case "add-or-remove-loved": {
-      return action.data.action
-        ? {
-            ...state,
-            loved: [action.data.product, ...state.loved],
-            products: state.products.map((p) => {
-              return p.id === action.id ? { ...p, loved: true } : p;
-            }),
-          }
-        : {
-            ...state,
-            loved: state.loved.filter((x) => x.id !== action.id),
-            products: state.products.map((p) => {
-              return p.id === action.id ? { ...p, loved: false } : p;
-            }),
-          };
+      return (
+        action.data &&
+        (action.data.action
+          ? {
+              ...state,
+              loved: [action.data.product, ...state.loved],
+              // products: state.products.map((p) => {
+              //   return p.id === action.id ? { ...p, loved: true } : p;
+              // }),
+            }
+          : {
+              ...state,
+              loved: state.loved.filter((x) => x.id !== action.id),
+              // products: state.products.map((p) => {
+              //   return p.id === action.id ? { ...p, loved: false } : p;
+              // }),
+            })
+      );
     }
     case "add-or-remove-cart": {
       return action.data.action
@@ -57,6 +63,12 @@ export const sessionsReducer = (
             ...state,
             cart: state.cart.filter((x) => x.id !== action.id),
           };
+    }
+    case "set-error": {
+      const error = action.error;
+      const msg = error.response ? error.response.data.error : error;
+      console.log("--- msg", msg);
+      return { ...state, error: msg };
     }
     case "add-favorite": {
       return { ...state, favorites: [...state.favorites, action.sessionId] };

@@ -7,12 +7,16 @@ import {
   IonCol,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  IonCardHeader,
+  IonCardTitle,
 } from "@ionic/react";
 import Sprint from "../components/Sprint";
 import { connect } from "../data/connect";
 import ProductCard from "../components/ProductCard";
 import { RouteComponentProps } from "react-router";
 import { loadProducts } from "../data/sessions/sessions.actions";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -34,6 +38,7 @@ const Home: React.FC<LovedProps> = ({
   isLoggedin,
   loadProducts,
 }) => {
+  const [t] = useTranslation();
   const handleScrollEnd = async (e: any) => {
     await loadProducts(productsPage);
     e.target.complete();
@@ -49,6 +54,11 @@ const Home: React.FC<LovedProps> = ({
       <IonContent>
         <p className="page__title">Franko shop</p>
         <Sprint />
+        <Link to="categories">
+          <IonCardHeader className="categories__header">
+            <IonCardTitle>{t("categories")}</IonCardTitle>
+          </IonCardHeader>
+        </Link>
         <IonGrid>
           <IonRow>
             {products.map((p) => (

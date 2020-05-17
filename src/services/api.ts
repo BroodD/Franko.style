@@ -19,12 +19,9 @@ export default () => {
       // return response
     },
     (error) => {
-      if (error.response && error.response.status === 401) {
-        // store.dispatch('setUser', {
-        // 	token: '',
-        // 	userId: ''
-        // })
-        // app.$goToPage(Wellcome)
+      if (error.response) {
+        if (error.response.status === 401) {
+        }
       }
       return Promise.reject(error);
     }

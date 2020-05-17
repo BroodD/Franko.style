@@ -2,6 +2,6 @@ export interface UserState {
   isLoggedin: boolean;
   hasSeenTutorial: boolean;
   loading: boolean;
-  username?: string;
+  lang: string;
   token?: string;
 }

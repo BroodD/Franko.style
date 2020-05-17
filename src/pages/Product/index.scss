@@ -1,9 +1,11 @@
-.product__slide {
-  width: auto;
+.product {
+  &__slide {
+    width: auto;
+  }
   /* max-width: 100%; */
   /* min-width: 100%; */
-}
-.product__image {
+  &__image {
+  }
   /* width: auto; */
   /* height: auto; */
   /* max-width: 100%; */

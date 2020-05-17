@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { IonSlides, IonSlide, IonButton, IonIcon } from "@ionic/react";
 import { connect } from "../../data/connect";
-import { play } from "ionicons/icons";
+import { chevronForward } from "ionicons/icons";
 import SprintServices from "../../services/sprint";
-import "./index.css";
+import "./index.scss";
 import { Link } from "react-router-dom";
 
 interface Sprint {
@@ -66,7 +66,7 @@ const Sprint: React.FC<SprintProps> = () => {
                       className="sprint__btn"
                     >
                       Більше
-                      <IonIcon icon={play}></IonIcon>
+                      <IonIcon icon={chevronForward}></IonIcon>
                     </IonButton>
                   </Link>
                 )}

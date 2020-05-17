@@ -7,6 +7,9 @@ export default {
   getProducts(params: any) {
     return api().get(`products`, { params });
   },
+  getProductsByCategory(params: any) {
+    return api().get(`products/category/${params.id}`, { params });
+  },
   getLovedProducts(params: any) {
     return api().get(`products/loved`, { params });
   },

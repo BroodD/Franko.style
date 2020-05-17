@@ -27,38 +27,44 @@ import {
 import {
   addOrRemoveLoved,
   addOrRemoveCart,
+  setError,
 } from "../../data/sessions/sessions.actions";
-import "./index.css";
+import "./index.scss";
 
 interface OwnProps extends RouteComponentProps {
   params?: any;
 }
 
-interface StateProps {}
+interface StateProps {
+  isLoggedin: boolean;
+}
 
 interface DispatchProps {
   addOrRemoveLoved: typeof addOrRemoveLoved;
   addOrRemoveCart: typeof addOrRemoveCart;
+  setError: typeof setError;
 }
 
 interface ProductProps extends OwnProps, StateProps, DispatchProps {}
 
 const Product: React.FC<ProductProps> = ({
   params,
+  isLoggedin,
   addOrRemoveLoved,
   addOrRemoveCart,
+  setError,
 }) => {
   const id = +params["id"];
   const [product, setProduct] = useState({} as any);
   const slideRef = useRef<HTMLIonSlidesElement>(null);
 
   const handleSlideLoad = () => {
-    // setTimeout(() => {
-    //   console.log("--- slider reaload");
-    //   slideRef.current!.update().then(() => {
-    //     // slideRef.current!.update();
-    //   });
-    // }, 100);
+    setTimeout(() => {
+      console.log("--- slider reaload");
+      slideRef.current!.update().then(() => {
+        slideRef.current!.slideTo(0);
+      });
+    }, 100);
   };
 
   useEffect(() => {
@@ -66,16 +72,8 @@ const Product: React.FC<ProductProps> = ({
       if (!isNaN(id)) {
         const res = await ProductServices.getProduct({ id });
 
-        console.log("--- res.data.product", res.data.product);
-
         if (res.data.product) {
           setProduct(res.data.product);
-          setTimeout(() => {
-            slideRef.current!.update().then(() => {
-              slideRef.current!.slideTo(0);
-              console.log("--- updated slides");
-            });
-          }, 200);
         }
       }
     })();
@@ -92,8 +90,12 @@ const Product: React.FC<ProductProps> = ({
             <IonButtons slot="end">
               <IonButton
                 onClick={() => {
-                  addOrRemoveLoved(id);
-                  setProduct({ ...product, loved: !product.loved });
+                  if (isLoggedin) {
+                    addOrRemoveLoved(id);
+                    setProduct({ ...product, loved: !product.loved });
+                  } else {
+                    setError("you_are_not_authorized");
+                  }
                 }}
                 className={
                   product.loved ? "product__loved active" : "product__loved"
@@ -177,10 +179,12 @@ const Product: React.FC<ProductProps> = ({
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, ownProps) => ({
     params: ownProps.match.params,
+    isLoggedin: state.user.isLoggedin,
   }),
   mapDispatchToProps: {
     addOrRemoveLoved,
     addOrRemoveCart,
+    setError,
   },
   component: Product,
 });

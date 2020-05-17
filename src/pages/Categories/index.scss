@@ -1,0 +1,13 @@
+.categories {
+  &__header {
+    background-color: #333;
+    ion-card-title {
+      color: #fff;
+    }
+  }
+
+  &__list {
+    display: block;
+    font-size: 20px;
+  }
+}
