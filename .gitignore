@@ -56,7 +56,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+.env.production
 
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
