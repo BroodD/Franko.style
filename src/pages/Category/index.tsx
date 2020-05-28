@@ -19,8 +19,10 @@ import * as selectors from "../../data/selectors";
 import { ICategory } from "../../models/Category";
 import { RouteComponentProps } from "react-router";
 import ProductCard from "../../components/ProductCard";
+import PageHeader from "../../components/PageHeader";
 import ProductService from "../../services/product";
 import { setError } from "../../data/sessions/sessions.actions";
+import { IProduct } from "../../models/Product";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -46,7 +48,6 @@ const Category: React.FC<CategoryProps> = ({ category, setError }) => {
             id: category.id,
             page,
           });
-          console.log("--- res.data.products", res.data.products);
           const newProducts = res.data.products;
           if (newProducts) {
             setProducts(products.concat(newProducts));
@@ -64,7 +65,6 @@ const Category: React.FC<CategoryProps> = ({ category, setError }) => {
   };
 
   useEffect(() => {
-    console.log("--- page", page);
     setProducts([]);
     setPage(1);
     loadProducts();
@@ -87,7 +87,7 @@ const Category: React.FC<CategoryProps> = ({ category, setError }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <p className="page__title">category {category.name}</p>
+        <PageHeader title={category.name} />
         {category.children && category.children.length ? (
           category.children.map((cat: ICategory) => (
             <Link
@@ -102,9 +102,16 @@ const Category: React.FC<CategoryProps> = ({ category, setError }) => {
           <Fragment>
             <IonGrid>
               <IonRow>
-                {products.map((p: any) => (
+                {products.map((p: IProduct) => (
                   <IonCol size="6" key={p.id}>
-                    <ProductCard id={p.id} name={p.name} loved={p.loved} />
+                    <ProductCard
+                      id={p.id}
+                      name={p.name}
+                      loved={p.loved}
+                      image={p.image}
+                      sizes={p.sizes}
+                      price={p.price}
+                    />
                   </IonCol>
                 ))}
               </IonRow>

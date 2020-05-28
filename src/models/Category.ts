@@ -1,8 +1,7 @@
 export interface ICategory {
   id: number;
-  imageSrc: string;
+  image: string;
   name: string;
-  image: number | null;
   parentId: number | null;
   hierarchyLevel: number;
   children: ICategory[];

@@ -12,12 +12,12 @@ import {
   IonIcon,
 } from "@ionic/react";
 import "./Login.scss";
-import { setIsLoggedIn, setUserProfile } from "../data/user/user.actions";
-import { connect } from "../data/connect";
+import { setIsLoggedIn, setUserProfile } from "../../data/user/user.actions";
+import { connect } from "../../data/connect";
 import { RouteComponentProps } from "react-router";
 import { mailOutline, lockClosedOutline, arrowForward } from "ionicons/icons";
 import { Link } from "react-router-dom";
-import AuthService from "../services/auth";
+import AuthService from "../../services/auth";
 
 interface OwnProps extends RouteComponentProps {}
 

@@ -3,12 +3,12 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonImg,
+  // IonImg,
   IonIcon,
   IonFabButton,
   IonFab,
 } from "@ionic/react";
-import "./index.css";
+import "./index.scss";
 import { heartOutline, heart } from "ionicons/icons";
 import { connect } from "../../data/connect";
 import {
@@ -21,6 +21,9 @@ interface OwnProps {
   id: number;
   name: string;
   loved: boolean;
+  image: string;
+  sizes: any;
+  price: number;
 }
 
 interface StateProps {
@@ -38,6 +41,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   id,
   name,
   loved,
+  image,
+  sizes,
+  price,
   isLoggedin,
   addOrRemoveLoved,
   setError,
@@ -45,11 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isLoved, setIsLoved] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log("--- useEffect productCard");
     setIsLoved(loved);
-    return () => {
-      console.log("--- destroy productCard");
-    };
   }, [loved]);
 
   return (
@@ -73,14 +75,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </IonFabButton>
       </IonFab>
       <Link to={"/product/" + id}>
-        <IonImg src="assets/img/product_1.jpg" />
+        {/* {image && <IonImg src={image} />} */}
+        <div
+          className="product__response"
+          style={{ backgroundImage: `url(${image})` }}
+        ></div>
         <IonCardHeader className="product__header">
           <IonCardTitle className="product__title">{name}</IonCardTitle>
           <IonCardSubtitle className="product__size">
-            xs, s, m, l
+            {Object.keys(sizes).map((size) => size + ", ")}
           </IonCardSubtitle>
           <IonCardTitle className="product__price">
-            559 грн <del>1400 грн</del>
+            {price} грн
+            {/* <del>1400 грн</del> */}
           </IonCardTitle>
         </IonCardHeader>
       </Link>

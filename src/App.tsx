@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
@@ -8,7 +8,6 @@ import {
   IonTabBar,
   IonTabButton,
   IonIcon,
-  IonToast,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Menu from "./components/Menu";
@@ -31,20 +30,20 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import "./theme/global.css";
+import "./theme/global.scss";
 
 import Home from "./pages/Home";
 import { connect } from "./data/connect";
 import { AppContextProvider } from "./data/AppContext";
-import { loadConfData } from "./data/sessions/sessions.actions";
+import { loadCategories } from "./data/sessions/sessions.actions";
 import {
   setIsLoggedIn,
   setUserProfile,
   loadUserData,
 } from "./data/user/user.actions";
 import More from "./pages/More";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/Auth/Login";
+import Signup from "./pages/Auth/Signup";
 import Loved from "./pages/Loved";
 import Cart from "./pages/Cart";
 import Account from "./pages/Account";
@@ -52,6 +51,7 @@ import Product from "./pages/Product";
 import Tutorial from "./pages/Tutorial";
 import Categories from "./pages/Categories";
 import Category from "./pages/Category";
+import About from "./pages/About";
 import HomeOrTutorial from "./components/HomeOrTutorial";
 import ErrorToast from "./components/ErrorToast";
 import {
@@ -76,10 +76,10 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  loadConfData: typeof loadConfData;
   loadUserData: typeof loadUserData;
   setIsLoggedIn: typeof setIsLoggedIn;
   setUserProfile: typeof setUserProfile;
+  loadCategories: typeof loadCategories;
 }
 
 interface IonicAppProps extends StateProps, DispatchProps {}
@@ -110,10 +110,12 @@ const IonicApp: React.FC<IonicAppProps> = ({
   setIsLoggedIn,
   setUserProfile,
   loadUserData,
+  loadCategories,
 }) => {
   const [t, i18n] = useTranslation();
   useEffect(() => {
     loadUserData();
+    loadCategories();
   }, []);
   useEffect(() => {
     i18n.changeLanguage(stateLang);
@@ -132,6 +134,7 @@ const IonicApp: React.FC<IonicAppProps> = ({
           <IonTabs>
             <IonRouterOutlet id="main">
               <Route path="/tutorial" component={Tutorial} />
+              <Route path="/about" component={About} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <Route path="/home" component={Home} />
@@ -182,10 +185,10 @@ const IonicAppConnected = connect<{}, StateProps, DispatchProps>({
     stateLang: state.user.lang,
   }),
   mapDispatchToProps: {
-    loadConfData,
     loadUserData,
     setIsLoggedIn,
     setUserProfile,
+    loadCategories,
   },
   component: IonicApp,
 });

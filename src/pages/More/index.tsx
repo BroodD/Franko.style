@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -23,8 +23,12 @@ import { chevronForward } from "ionicons/icons";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { setLang } from "../../data/user/user.actions";
+import PageHeader from "../../components/PageHeader";
 
-const routes = [{ title: "account", path: "/account" }];
+const routes = [
+  { title: "account", path: "/account" },
+  { title: "about", path: "/about" },
+];
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -47,19 +51,16 @@ const More: React.FC<MoreProps> = ({ stateLang, setLang }) => {
           <IonButtons slot="start">
             <IonMenuButton></IonMenuButton>
           </IonButtons>
-          <IonTitle>Більше</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <p className="page__title">Більше</p>
+        <PageHeader title="more" />
 
         <IonListHeader>Мова</IonListHeader>
         <IonSegment
           value={stateLang}
           className="lang__segment"
           onIonChange={(e) => {
-            console.log("--- e.detail.value", e.detail.value);
-            // i18n.changeLanguage(e.detail.value as "uk" | "ru");
             setLang(e.detail.value as string);
           }}
         >

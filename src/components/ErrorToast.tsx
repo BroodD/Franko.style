@@ -30,7 +30,7 @@ const ErrorToast: React.FC<ErrorToastProps> = ({
       isOpen={!!error}
       position="top"
       message={t(error)}
-      duration={3000}
+      duration={4000}
       onDidDismiss={() => setError("")}
       buttons={
         error === "you_are_not_authorized"

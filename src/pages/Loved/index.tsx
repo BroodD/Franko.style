@@ -8,11 +8,12 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
 } from "@ionic/react";
-import { connect } from "../data/connect";
-import ProductCard from "../components/ProductCard";
-import ErrorPage from "../components/ErrorPage";
+import { connect } from "../../data/connect";
+import ProductCard from "../../components/ProductCard";
+import ErrorPage from "../../components/ErrorPage";
 import { RouteComponentProps } from "react-router";
-import { loadLovedProducts } from "../data/sessions/sessions.actions";
+import { loadLovedProducts } from "../../data/sessions/sessions.actions";
+import PageHeader from "../../components/PageHeader";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -43,25 +44,35 @@ const Loved: React.FC<LovedProps> = ({
 
   return (
     <IonPage>
-      {/* <IonContent scrollEvents={true} onIonScrollEnd={handleScrollEnd}> */}
       <IonContent>
-        <p className="page__title">Вибране</p>
+        <PageHeader title="loved" />
         {isLoggedin ? (
-          <Fragment>
-            <IonGrid>
-              <IonRow>
-                {products.map((p) => (
-                  <IonCol size="6" key={p.id}>
-                    <ProductCard id={p.id} name={p.name} loved={true} />
-                  </IonCol>
-                ))}
-              </IonRow>
-            </IonGrid>
+          !products.length ? (
+            <ErrorPage error="empty_loved" image="assets/img/empty_loved.svg" />
+          ) : (
+            <Fragment>
+              <IonGrid>
+                <IonRow>
+                  {products.map((p) => (
+                    <IonCol size="6" key={p.id}>
+                      <ProductCard
+                        id={p.id}
+                        name={p.name}
+                        loved={true}
+                        image={p.image}
+                        sizes={p.sizes}
+                        price={p.price}
+                      />
+                    </IonCol>
+                  ))}
+                </IonRow>
+              </IonGrid>
 
-            <IonInfiniteScroll onIonInfinite={handleScrollEnd}>
-              <IonInfiniteScrollContent></IonInfiniteScrollContent>
-            </IonInfiniteScroll>
-          </Fragment>
+              <IonInfiniteScroll onIonInfinite={handleScrollEnd}>
+                <IonInfiniteScrollContent></IonInfiniteScrollContent>
+              </IonInfiniteScroll>
+            </Fragment>
+          )
         ) : (
           <ErrorPage error="you_are_not_authorized" />
         )}

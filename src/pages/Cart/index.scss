@@ -1,0 +1,47 @@
+.cart {
+  &-grid {
+    --ion-grid-padding: 0;
+    margin-top: -5px;
+    margin-bottom: -5px;
+  }
+
+  &__image {
+    padding-left: 0;
+  }
+
+  &__name {
+    font-weight: 500;
+    font-size: 18px;
+    margin: 10px 0;
+  }
+
+  &__chip {
+    border-radius: 0;
+    margin: 0;
+    &--medium {
+      background-color: var(--ion-color-medium);
+    }
+  }
+
+  &__price {
+    font-weight: 500;
+    font-size: 19px;
+    margin: 10px 0;
+  }
+
+  &__total {
+    font-size: 25px;
+    font-weight: 500;
+  }
+
+  &__confirm {
+    background-color: var(--ion-color-medium);
+  }
+
+  &__modal {
+    padding-top: 50vh;
+    modal-content {
+      height: 50vh;
+    }
+  }
+}

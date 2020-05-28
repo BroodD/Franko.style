@@ -10,13 +10,14 @@ import {
   IonCardHeader,
   IonCardTitle,
 } from "@ionic/react";
-import Sprint from "../components/Sprint";
-import { connect } from "../data/connect";
-import ProductCard from "../components/ProductCard";
+import Sprint from "../../components/Sprint";
+import { connect } from "../../data/connect";
+import ProductCard from "../../components/ProductCard";
 import { RouteComponentProps } from "react-router";
-import { loadProducts } from "../data/sessions/sessions.actions";
+import { loadProducts } from "../../data/sessions/sessions.actions";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import PageHeader from "../../components/PageHeader";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -46,13 +47,12 @@ const Home: React.FC<LovedProps> = ({
 
   useEffect(() => {
     loadProducts(1, true);
-  }, [isLoggedin, loadProducts]);
+  }, [isLoggedin]);
 
   return (
     <IonPage>
-      {/* <IonContent scrollEvents={true} onIonScrollEnd={handleScrollEnd}> */}
       <IonContent>
-        <p className="page__title">Franko shop</p>
+        <PageHeader title="Franko shop" />
         <Sprint />
         <Link to="categories">
           <IonCardHeader className="categories__header">
@@ -63,7 +63,14 @@ const Home: React.FC<LovedProps> = ({
           <IonRow>
             {products.map((p) => (
               <IonCol size="6" key={p.id}>
-                <ProductCard id={p.id} name={p.name} loved={p.loved} />
+                <ProductCard
+                  id={p.id}
+                  name={p.name}
+                  loved={p.loved}
+                  image={p.image}
+                  sizes={p.sizes}
+                  price={p.price}
+                />
               </IonCol>
             ))}
           </IonRow>

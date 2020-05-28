@@ -9,6 +9,21 @@
   --ion-grid-padding: 0;
   padding: 0;
 }
+
+.m {
+  &y {
+    &-20 {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+  &t {
+    &-30 {
+      margin-top: 30px;
+    }
+  }
+}
+
 .btn-padd {
   --padding-top: 30px;
   --padding-bottom: 30px;

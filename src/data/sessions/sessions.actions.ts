@@ -1,10 +1,12 @@
 import {
   loadLovedProductsData,
   putLovedProduct,
-  putCartProduct,
+  postCartProduct,
   loadProductsData,
   loadCartProductsData,
   loadCategoriesData,
+  putCartProductCount,
+  deleteCartProduct,
 } from "../dataApi";
 import { ActionType } from "../../util/types";
 import { ConfState } from "./conf.state";
@@ -77,21 +79,17 @@ export const loadLovedProducts = (
   }
 };
 
-export const loadCartProducts = (
-  offset: number = 1,
-  clear?: boolean
-) => async () => {
+export const loadCartProducts = (clear?: boolean) => async () => {
   try {
     let data;
     if (clear) {
       data = [];
     } else {
-      data = await loadCartProductsData(offset);
+      data = await loadCartProductsData();
     }
     return {
       type: "set-cart-data",
       data,
-      offset,
       clear,
     } as const;
   } catch (error) {
@@ -102,9 +100,7 @@ export const loadCartProducts = (
   }
 };
 
-export const addOrRemoveLoved = (id: number) => async (
-  dispatch: React.Dispatch<any>
-) => {
+export const addOrRemoveLoved = (id: number) => async () => {
   try {
     const data = await putLovedProduct(id);
     return {
@@ -113,7 +109,6 @@ export const addOrRemoveLoved = (id: number) => async (
       data,
     } as const;
   } catch (error) {
-    console.dir(error);
     return {
       type: "set-error",
       error,
@@ -121,14 +116,55 @@ export const addOrRemoveLoved = (id: number) => async (
   }
 };
 
-export const addOrRemoveCart = (id: number) => async () => {
-  const data = await putCartProduct(id);
-  console.log("--- data add or", data, id);
-  return {
-    type: "add-or-remove-cart",
-    id,
-    data,
-  } as const;
+export const addToCart = (id: number, size: string) => async (
+  dispatch: React.Dispatch<any>
+) => {
+  try {
+    const data = await postCartProduct(id, size);
+    dispatch(setError("product_added_to_cart"));
+    return {
+      type: "add-cart",
+      id,
+      data,
+    } as const;
+  } catch (error) {
+    return {
+      type: "set-error",
+      error,
+    } as const;
+  }
+};
+
+export const updateCountCart = (id: number, count: number) => async () => {
+  try {
+    const data = await putCartProductCount(id, count);
+    return {
+      type: "update-count-cart",
+      id,
+      data,
+    } as const;
+  } catch (error) {
+    return {
+      type: "set-error",
+      error,
+    } as const;
+  }
+};
+
+export const removeCart = (id: number) => async () => {
+  try {
+    const data = await deleteCartProduct(id);
+    return {
+      type: "remove-cart",
+      id,
+      data,
+    } as const;
+  } catch (error) {
+    return {
+      type: "set-error",
+      error,
+    } as const;
+  }
 };
 
 export const setError = (error: string) =>
@@ -182,7 +218,9 @@ export type SessionsActions =
   | ActionType<typeof loadLovedProducts>
   | ActionType<typeof loadCartProducts>
   | ActionType<typeof addOrRemoveLoved>
-  | ActionType<typeof addOrRemoveCart>
+  | ActionType<typeof addToCart>
+  | ActionType<typeof updateCountCart>
+  | ActionType<typeof removeCart>
   | ActionType<typeof setError>
   | ActionType<typeof addFavorite>
   | ActionType<typeof removeFavorite>

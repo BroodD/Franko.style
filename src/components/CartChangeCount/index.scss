@@ -1,0 +1,30 @@
+.change {
+  &__header {
+    background-color: var(--ion-color-medium);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  &__count {
+    font-weight: 500;
+    font-size: 25px;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+
+    h3 {
+      font-weight: 500;
+      font-size: 25px;
+    }
+  }
+}

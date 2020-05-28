@@ -1,12 +1,11 @@
 export interface IProduct {
   id: number;
-  parentId: number | null;
-  loved?: boolean;
-  cart?: boolean;
+  loved: boolean;
   name: string;
   price: number;
-  // imageSrc: string;
-  // image: number | null;
+  sizes: any;
+  images: string[];
+  image: string;
   lovedUsers: [];
   createdAt: string;
   updatedAt: string;

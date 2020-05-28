@@ -29,9 +29,7 @@ export const sessionsReducer = (
         : { ...state, loved: state.loved.concat(action.data) };
     }
     case "set-cart-data": {
-      return action.clear || action.offset === 0
-        ? { ...state, cart: action.data }
-        : { ...state, cart: state.cart.concat(action.data) };
+      return { ...state, cart: action.data };
     }
     case "add-or-remove-loved": {
       return (
@@ -40,34 +38,45 @@ export const sessionsReducer = (
           ? {
               ...state,
               loved: [action.data.product, ...state.loved],
-              // products: state.products.map((p) => {
-              //   return p.id === action.id ? { ...p, loved: true } : p;
-              // }),
+              products: state.products.map((p) => {
+                return p.id === action.id ? { ...p, loved: true } : p;
+              }),
             }
           : {
               ...state,
               loved: state.loved.filter((x) => x.id !== action.id),
-              // products: state.products.map((p) => {
-              //   return p.id === action.id ? { ...p, loved: false } : p;
-              // }),
+              products: state.products.map((p) => {
+                return p.id === action.id ? { ...p, loved: false } : p;
+              }),
             })
       );
     }
-    case "add-or-remove-cart": {
-      return action.data.action
-        ? {
-            ...state,
-            cart: [action.data.product, ...state.cart],
-          }
-        : {
-            ...state,
-            cart: state.cart.filter((x) => x.id !== action.id),
-          };
+    case "add-cart": {
+      return {
+        ...state,
+        cart: [
+          { ...action.data.cartProduct, product: action.data.product },
+          ...state.cart,
+        ],
+      };
+    }
+    case "update-count-cart": {
+      return {
+        ...state,
+        cart: state.cart.map((c) => {
+          return c.id === action.id ? { ...c, count: action.data.count } : c;
+        }),
+      };
+    }
+    case "remove-cart": {
+      return {
+        ...state,
+        cart: state.cart.filter((c) => c.id !== action.id),
+      };
     }
     case "set-error": {
       const error = action.error;
       const msg = error.response ? error.response.data.error : error;
-      console.log("--- msg", msg);
       return { ...state, error: msg };
     }
     case "add-favorite": {

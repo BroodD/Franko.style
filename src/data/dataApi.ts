@@ -110,8 +110,8 @@ export const loadLovedProductsData = async (offset: number = 0) => {
   return res.data.products;
 };
 
-export const loadCartProductsData = async (offset: number = 0) => {
-  const res = await ProductService.getCartProducts({ offset });
+export const loadCartProductsData = async () => {
+  const res = await ProductService.getCartProducts({});
   return res.data.products;
 };
 
@@ -120,8 +120,18 @@ export const putLovedProduct = async (id: number) => {
   return res.data;
 };
 
-export const putCartProduct = async (id: number) => {
-  const res = await ProductService.putCartProduct({ id });
+export const postCartProduct = async (id: number, size: string) => {
+  const res = await ProductService.postCartProduct({ id, size });
+  return res.data;
+};
+
+export const putCartProductCount = async (id: number, count: number) => {
+  const res = await ProductService.putCartProductCount({ id, count });
+  return res.data;
+};
+
+export const deleteCartProduct = async (id: number) => {
+  const res = await ProductService.deleteCartProduct({ id });
   return res.data;
 };
 

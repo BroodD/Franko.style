@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -11,8 +11,8 @@ import {
 import "./index.scss";
 import { connect } from "../../data/connect";
 import { ICategory } from "../../models/Category";
-import { loadCategories } from "../../data/sessions/sessions.actions";
-import { RouteComponentProps, Redirect } from "react-router";
+import PageHeader from "../../components/PageHeader";
+import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 
 interface OwnProps extends RouteComponentProps {}
@@ -21,20 +21,11 @@ interface StateProps {
   categories: ICategory[];
 }
 
-interface DispatchProps {
-  loadCategories: typeof loadCategories;
-}
+interface DispatchProps {}
 
 interface CategoriesProps extends OwnProps, StateProps, DispatchProps {}
 
-const Categories: React.FC<CategoriesProps> = ({
-  categories,
-  loadCategories,
-}) => {
-  useEffect(() => {
-    loadCategories();
-  }, []);
-
+const Categories: React.FC<CategoriesProps> = ({ categories }) => {
   return (
     <IonPage>
       <IonHeader>
@@ -46,7 +37,7 @@ const Categories: React.FC<CategoriesProps> = ({
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <p className="page__title">categories list</p>
+        <PageHeader title="categories" />
         {categories
           .filter((cat) => cat.parentId === null)
           .map((cat) => (
@@ -67,8 +58,6 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
     categories: state.data.categories,
   }),
-  mapDispatchToProps: {
-    loadCategories,
-  },
+  mapDispatchToProps: {},
   component: Categories,
 });
