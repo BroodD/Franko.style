@@ -37,7 +37,6 @@ const Categories: React.FC<CategoriesProps> = ({ categories }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <PageHeader title="categories" />
         {categories
           .filter((cat) => cat.parentId === null)
           .map((cat) => (

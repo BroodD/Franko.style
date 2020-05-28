@@ -6,12 +6,6 @@ export const sessionsReducer = (
   action: SessionsActions
 ): ConfState => {
   switch (action.type) {
-    case "set-conf-loading": {
-      return { ...state, loading: action.isLoading };
-    }
-    case "set-conf-data": {
-      return { ...state, ...action.data };
-    }
     case "set-products-page": {
       return { ...state, productsPage: action.page };
     }
@@ -78,21 +72,6 @@ export const sessionsReducer = (
       const error = action.error;
       const msg = error.response ? error.response.data.error : error;
       return { ...state, error: msg };
-    }
-    case "add-favorite": {
-      return { ...state, favorites: [...state.favorites, action.sessionId] };
-    }
-    case "remove-favorite": {
-      return {
-        ...state,
-        favorites: [...state.favorites.filter((x) => x !== action.sessionId)],
-      };
-    }
-    case "update-filtered-tracks": {
-      return { ...state, filteredTracks: action.filteredTracks };
-    }
-    case "set-search-text": {
-      return { ...state, searchText: action.searchText };
     }
   }
 };
