@@ -6,6 +6,7 @@ export interface IProduct {
   sizes: any;
   images: string[];
   image: string;
+  description: string;
   lovedUsers: [];
   createdAt: string;
   updatedAt: string;

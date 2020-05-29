@@ -4,4 +4,6 @@ export interface UserState {
   loading: boolean;
   lang: string;
   token?: string;
+  email?: string;
+  phone?: string;
 }

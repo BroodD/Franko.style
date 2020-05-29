@@ -52,7 +52,6 @@ import Tutorial from "./pages/Tutorial";
 import Categories from "./pages/Categories";
 import Category from "./pages/Category";
 import About from "./pages/About";
-import HomeOrTutorial from "./components/HomeOrTutorial";
 import ErrorToast from "./components/ErrorToast";
 import {
   homeOutline,
@@ -126,13 +125,11 @@ const IonicApp: React.FC<IonicAppProps> = ({
   ) : (
     <IonApp>
       <IonReactRouter>
-        <IonSplitPane contentId="main">
-          <Menu />
-
+        <IonSplitPane contentId="main-content">
           <ErrorToast />
 
           <IonTabs>
-            <IonRouterOutlet id="main">
+            <IonRouterOutlet id="main-content">
               <Route path="/tutorial" component={Tutorial} />
               <Route path="/about" component={About} />
               <Route path="/login" component={Login} />
@@ -153,8 +150,7 @@ const IonicApp: React.FC<IonicAppProps> = ({
                   return <Redirect to="/login" />;
                 }}
               />
-              <Route path="/" component={HomeOrTutorial} exact />
-              {/* <Route path="*" component={HomeOrTutorial} /> */}
+              <Route path="/" component={Home} exact />
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="home" href="/home">

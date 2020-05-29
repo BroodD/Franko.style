@@ -58,12 +58,14 @@ export const loadLovedProducts = (
   clear?: boolean
 ) => async (dispatch: React.Dispatch<any>) => {
   try {
+    dispatch(setLoading(true));
     let data;
     if (clear) {
       data = [];
     } else {
       data = await loadLovedProductsData(offset);
     }
+    dispatch(setLoading(false));
     return {
       type: "set-loved-data",
       data,
@@ -71,6 +73,7 @@ export const loadLovedProducts = (
       clear,
     } as const;
   } catch (error) {
+    dispatch(setLoading(false));
     return {
       type: "set-error",
       error,
@@ -78,20 +81,25 @@ export const loadLovedProducts = (
   }
 };
 
-export const loadCartProducts = (clear?: boolean) => async () => {
+export const loadCartProducts = (clear?: boolean) => async (
+  dispatch: React.Dispatch<any>
+) => {
   try {
+    dispatch(setLoading(true));
     let data;
     if (clear) {
       data = [];
     } else {
       data = await loadCartProductsData();
     }
+    dispatch(setLoading(false));
     return {
       type: "set-cart-data",
       data,
       clear,
     } as const;
   } catch (error) {
+    dispatch(setLoading(false));
     return {
       type: "set-error",
       error,
@@ -120,7 +128,7 @@ export const addToCart = (id: number, size: string) => async (
 ) => {
   try {
     const data = await postCartProduct(id, size);
-    dispatch(setError("product_added_to_cart"));
+    dispatch(setError("added_to_cart"));
     return {
       type: "add-cart",
       id,
@@ -172,6 +180,12 @@ export const setError = (error: string) =>
     error,
   } as const);
 
+export const setLoading = (isLoading: boolean) =>
+  ({
+    type: "set-conf-loading",
+    isLoading,
+  } as const);
+
 export type SessionsActions =
   | ActionType<typeof loadProducts>
   | ActionType<typeof setProductsPage>
@@ -182,4 +196,5 @@ export type SessionsActions =
   | ActionType<typeof addToCart>
   | ActionType<typeof updateCountCart>
   | ActionType<typeof removeCart>
-  | ActionType<typeof setError>;
+  | ActionType<typeof setError>
+  | ActionType<typeof setLoading>;

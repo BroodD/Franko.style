@@ -1,17 +1,18 @@
 import React, { useEffect, useState, Fragment } from "react";
 import {
-  IonHeader,
-  IonToolbar,
   IonContent,
   IonPage,
-  IonBackButton,
-  IonButtons,
-  IonButton,
   IonGrid,
   IonRow,
   IonCol,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  IonItem,
+  IonImg,
+  IonLabel,
+  IonIcon,
+  IonList,
+  IonAvatar,
 } from "@ionic/react";
 import { Link } from "react-router-dom";
 import { connect } from "../../data/connect";
@@ -23,6 +24,8 @@ import PageHeader from "../../components/PageHeader";
 import ProductService from "../../services/product";
 import { setError } from "../../data/sessions/sessions.actions";
 import { IProduct } from "../../models/Product";
+import ErrorPage from "../../components/ErrorPage";
+import { chevronForward } from "ionicons/icons";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -73,31 +76,33 @@ const Category: React.FC<CategoryProps> = ({ category, setError }) => {
   }, [category]);
 
   if (!category) {
-    return <div>Session not found</div>;
+    return <ErrorPage error="not_found" image="assets/img/not_found.svg" />;
   }
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/home"></IonBackButton>
-            <IonButton></IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <PageHeader title={category.name} back />
       <IonContent>
-        <PageHeader title={category.name} />
         {category.children && category.children.length ? (
-          category.children.map((cat: ICategory) => (
-            <Link
-              key={cat.id}
-              to={`/category/${cat.id}`}
-              className="categories__list"
-            >
-              {cat.name} - {cat.id}
-            </Link>
-          ))
+          <IonList>
+            {category.children.map((cat: ICategory) => (
+              <Link
+                key={cat.id}
+                to={`/category/${cat.id}`}
+                className="categories__list"
+              >
+                <IonItem>
+                  {cat.image && (
+                    <IonAvatar slot="start">
+                      <IonImg src={cat.image} />
+                    </IonAvatar>
+                  )}
+                  <IonLabel>{cat.name}</IonLabel>
+                  <IonIcon icon={chevronForward} slot="end" />
+                </IonItem>
+              </Link>
+            ))}
+          </IonList>
         ) : (
           <Fragment>
             <IonGrid>

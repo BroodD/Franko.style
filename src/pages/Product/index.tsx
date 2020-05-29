@@ -15,7 +15,7 @@ import {
   IonLabel,
   IonCardContent,
   IonItemGroup,
-  IonItem,
+  IonTitle,
 } from "@ionic/react";
 import { connect } from "../../data/connect";
 import { RouteComponentProps } from "react-router";
@@ -25,9 +25,12 @@ import {
   addOrRemoveLoved,
   addToCart,
   setError,
+  setLoading,
 } from "../../data/sessions/sessions.actions";
 import "./index.scss";
 import { IProduct } from "../../models/Product";
+import ErrorPage from "../../components/ErrorPage";
+import { useTranslation } from "react-i18next";
 
 interface OwnProps extends RouteComponentProps {
   params?: any;
@@ -35,12 +38,14 @@ interface OwnProps extends RouteComponentProps {
 
 interface StateProps {
   isLoggedin: boolean;
+  loading?: boolean;
 }
 
 interface DispatchProps {
   addOrRemoveLoved: typeof addOrRemoveLoved;
   addToCart: typeof addToCart;
   setError: typeof setError;
+  setLoading: typeof setLoading;
 }
 
 interface ProductProps extends OwnProps, StateProps, DispatchProps {}
@@ -48,84 +53,80 @@ interface ProductProps extends OwnProps, StateProps, DispatchProps {}
 const Product: React.FC<ProductProps> = ({
   params,
   isLoggedin,
+  loading,
   addOrRemoveLoved,
   addToCart,
   setError,
+  setLoading,
 }) => {
   const id = +params["id"];
+  const [t] = useTranslation();
   const [product, setProduct] = useState<IProduct>();
   const [selectedSize, setSelectedSize] = useState<string>("");
-  // const slideRef = useRef<HTMLIonSlidesElement>(null);
-
-  // const handleSlideLoad = () => {
-  //   setTimeout(() => {
-  //     console.log("--- slider reaload");
-  //     slideRef.current!.update();
-  //     // .then(() => {
-  //     // slideRef.current!.slideTo(0);
-  //     // });
-  //   }, 100);
-  // };
 
   useEffect(() => {
-    (async () => {
-      if (!isNaN(id)) {
-        const res = await ProductServices.getProduct({ id });
-        const resProduct = res.data.product;
+    try {
+      (async () => {
+        if (!isNaN(id)) {
+          setLoading(true);
+          const res = await ProductServices.getProduct({ id });
+          const resProduct = res.data.product;
 
-        if (resProduct) {
-          setProduct(resProduct);
-          const isUniversal = Object.keys(resProduct.sizes).includes(
-            "universal"
-          );
-          if (isUniversal) setSelectedSize("universal");
+          if (resProduct) {
+            setProduct(resProduct);
+            const isUniversal = Object.keys(resProduct.sizes).includes(
+              "universal"
+            );
+            if (isUniversal) setSelectedSize("universal");
+          }
+          setLoading(false);
         }
-      }
-    })();
+      })();
+    } catch (err) {
+      setLoading(false);
+    }
   }, [id]);
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/home"></IonBackButton>
-          </IonButtons>
-          {product && (
-            <IonButtons slot="end">
-              <IonButton
-                onClick={() => {
-                  if (isLoggedin) {
-                    addOrRemoveLoved(id);
-                    setProduct({ ...product, loved: !product.loved });
-                  } else {
-                    setError("you_are_not_authorized");
-                  }
-                }}
-                className={
-                  product.loved ? "product__loved active" : "product__loved"
-                }
-              >
-                {product.loved ? (
-                  <IonIcon slot="icon-only" icon={heart} />
-                ) : (
-                  <IonIcon slot="icon-only" icon={heartOutline} />
-                )}
-              </IonButton>
-            </IonButtons>
-          )}
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        {product ? (
-          <Fragment>
+      {product ? (
+        <Fragment>
+          <IonHeader>
+            <IonToolbar>
+              <IonButtons slot="start">
+                <IonBackButton defaultHref="/home"></IonBackButton>
+              </IonButtons>
+              <IonTitle>{product.name}</IonTitle>
+              {product && (
+                <IonButtons slot="end">
+                  <IonButton
+                    onClick={() => {
+                      if (isLoggedin) {
+                        addOrRemoveLoved(id);
+                        setProduct({ ...product, loved: !product.loved });
+                      } else {
+                        setError("you_are_not_authorized");
+                      }
+                    }}
+                    className={
+                      product.loved ? "product__loved active" : "product__loved"
+                    }
+                  >
+                    {product.loved ? (
+                      <IonIcon slot="icon-only" icon={heart} />
+                    ) : (
+                      <IonIcon slot="icon-only" icon={heartOutline} />
+                    )}
+                  </IonButton>
+                </IonButtons>
+              )}
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
             <IonSlides
-              // ref={slideRef}
               className="product__slides"
-              // onIonSlidesDidLoad={handleSlideLoad}
               pager={true}
               options={{
-                // slidesPerView: "auto",
                 spaceBetween: 0,
                 zoom: true,
               }}
@@ -142,7 +143,7 @@ const Product: React.FC<ProductProps> = ({
               <h1>{product.name}</h1>
               <IonItemGroup>
                 <IonLabel>
-                  <h3>Ціна: </h3>
+                  <h3>{t("price")}: </h3>
                 </IonLabel>
                 <IonItemDivider>
                   <IonLabel>{product.price} грн</IonLabel>
@@ -150,11 +151,11 @@ const Product: React.FC<ProductProps> = ({
               </IonItemGroup>
               <IonItemGroup>
                 <IonLabel>
-                  <h3>Розміри: </h3>
+                  <h3>{t("sizes")}: </h3>
                 </IonLabel>
-                {Object.entries(product.sizes).map(([key, value]) => (
+                {Object.keys(product.sizes).map((key) => (
                   <IonButton
-                    fill={selectedSize == key ? "outline" : "clear"}
+                    fill={selectedSize === key ? "outline" : "clear"}
                     key={key}
                     onClick={() => setSelectedSize(key)}
                   >
@@ -169,18 +170,23 @@ const Product: React.FC<ProductProps> = ({
                 }}
               >
                 <IonIcon icon={cartOutline} />
-                Додати у кошик
+                {t("add_to_cart")}
               </IonButton>
               <div className="product__description">
-                <p className="heading ion-text-uppercase">Опис</p>
-                МатеріалЖ микрофибра Вставки из замши, еко кожи и дихаючої сетки
+                <p className="heading ion-text-uppercase">{t("description")}</p>
+                {product.description}
               </div>
             </IonCardContent>
-          </Fragment>
-        ) : (
-          "nothing"
-        )}
-      </IonContent>
+          </IonContent>
+        </Fragment>
+      ) : (
+        !loading && (
+          <ErrorPage
+            error="product_not_found"
+            image="assets/img/not_found.svg"
+          ></ErrorPage>
+        )
+      )}
     </IonPage>
   );
 };
@@ -189,11 +195,13 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, ownProps) => ({
     params: ownProps.match.params,
     isLoggedin: state.user.isLoggedin,
+    loading: state.data.loading,
   }),
   mapDispatchToProps: {
     addOrRemoveLoved,
     addToCart,
     setError,
+    setLoading,
   },
   component: Product,
 });

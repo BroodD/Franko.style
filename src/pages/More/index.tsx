@@ -1,12 +1,7 @@
 import React from "react";
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonPage,
-  IonButtons,
-  IonMenuButton,
   IonList,
   IonListHeader,
   IonItem,
@@ -43,20 +38,12 @@ interface DispatchProps {
 interface MoreProps extends OwnProps, StateProps, DispatchProps {}
 
 const More: React.FC<MoreProps> = ({ stateLang, setLang }) => {
-  const [t, i18n] = useTranslation();
+  const [t] = useTranslation();
   return (
-    <IonPage id="account-page">
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton></IonMenuButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+    <IonPage>
+      <PageHeader title="more" />
       <IonContent>
-        <PageHeader title="more" />
-
-        <IonListHeader>Мова</IonListHeader>
+        <IonListHeader>{t("language")}</IonListHeader>
         <IonSegment
           value={stateLang}
           className="lang__segment"

@@ -33,8 +33,8 @@ const Login: React.FC<LoginProps> = ({
   history,
   setUserProfile,
 }) => {
-  const [email, setEmail] = useState("admin@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "", msg: "" });
 
   const login = async (e: React.FormEvent) => {

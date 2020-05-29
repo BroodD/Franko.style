@@ -83,7 +83,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <IonCardHeader className="product__header">
           <IonCardTitle className="product__title">{name}</IonCardTitle>
           <IonCardSubtitle className="product__size">
-            {Object.keys(sizes).map((size) => size + ", ")}
+            {Object.keys(sizes).map(
+              (size, index, array) =>
+                size + (index === array.length - 1 ? "" : ", ")
+            )}
           </IonCardSubtitle>
           <IonCardTitle className="product__price">
             {price} грн

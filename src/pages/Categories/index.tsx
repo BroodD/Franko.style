@@ -1,19 +1,21 @@
 import React from "react";
 import {
-  IonHeader,
-  IonToolbar,
   IonContent,
   IonPage,
-  IonBackButton,
-  IonButtons,
-  IonButton,
+  IonList,
+  IonLabel,
+  IonItem,
+  IonImg,
+  IonIcon,
+  IonAvatar,
 } from "@ionic/react";
 import "./index.scss";
 import { connect } from "../../data/connect";
 import { ICategory } from "../../models/Category";
-import PageHeader from "../../components/PageHeader";
 import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
+import { chevronForward } from "ionicons/icons";
+import PageHeader from "../../components/PageHeader";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -28,26 +30,29 @@ interface CategoriesProps extends OwnProps, StateProps, DispatchProps {}
 const Categories: React.FC<CategoriesProps> = ({ categories }) => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/home"></IonBackButton>
-            <IonButton></IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <PageHeader title="" back />
       <IonContent>
-        {categories
-          .filter((cat) => cat.parentId === null)
-          .map((cat) => (
-            <Link
-              key={cat.id}
-              to={`/category/${cat.id}`}
-              className="categories__list"
-            >
-              {cat.name} - {cat.id}
-            </Link>
-          ))}
+        <IonList>
+          {categories
+            .filter((cat) => cat.parentId === null)
+            .map((cat) => (
+              <Link
+                key={cat.id}
+                to={`/category/${cat.id}`}
+                className="categories__list"
+              >
+                <IonItem>
+                  {cat.image && (
+                    <IonAvatar slot="start">
+                      <IonImg src={cat.image} />
+                    </IonAvatar>
+                  )}
+                  <IonLabel>{cat.name}</IonLabel>
+                  <IonIcon icon={chevronForward} slot="end" />
+                </IonItem>
+              </Link>
+            ))}
+        </IonList>
       </IonContent>
     </IonPage>
   );

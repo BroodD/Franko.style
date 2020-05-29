@@ -6,6 +6,9 @@ export const sessionsReducer = (
   action: SessionsActions
 ): ConfState => {
   switch (action.type) {
+    case "set-conf-loading": {
+      return { ...state, loading: action.isLoading };
+    }
     case "set-products-page": {
       return { ...state, productsPage: action.page };
     }

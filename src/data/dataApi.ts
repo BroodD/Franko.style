@@ -9,6 +9,8 @@ const HAS_LOGGED_IN = "hasLoggedIn";
 const HAS_SEEN_TUTORIAL = "hasSeenTutorial";
 const LANG = "lang";
 const TOKEN = "token";
+const EMAIL = "email";
+const PHONE = "phone";
 
 export const getUserData = async () => {
   const response = await Promise.all([
@@ -16,16 +18,22 @@ export const getUserData = async () => {
     Storage.get({ key: HAS_SEEN_TUTORIAL }),
     Storage.get({ key: LANG }),
     Storage.get({ key: TOKEN }),
+    Storage.get({ key: EMAIL }),
+    Storage.get({ key: PHONE }),
   ]);
   const isLoggedin = (await response[0].value) === "true";
   const hasSeenTutorial = (await response[1].value) === "true";
   const lang = (await response[2].value) || "uk";
   const token = (await response[3].value) || undefined;
+  const email = (await response[4].value) || undefined;
+  const phone = (await response[5].value) || undefined;
   const data = {
     isLoggedin,
     hasSeenTutorial,
     lang,
     token,
+    email,
+    phone,
   };
   return data;
 };
@@ -49,11 +57,21 @@ export const setLangData = async (lang: string) => {
 };
 
 export const setUserProfileData = async (data: Partial<UserState>) => {
-  const { token } = data;
+  const { token, email, phone } = data;
   if (!token) {
     await Storage.remove({ key: TOKEN });
   } else {
     await Storage.set({ key: TOKEN, value: token });
+  }
+  if (!email) {
+    await Storage.remove({ key: EMAIL });
+  } else {
+    await Storage.set({ key: EMAIL, value: email });
+  }
+  if (!phone) {
+    await Storage.remove({ key: PHONE });
+  } else {
+    await Storage.set({ key: PHONE, value: phone });
   }
 };
 

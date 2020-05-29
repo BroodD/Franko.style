@@ -5,16 +5,7 @@ import { chevronForward } from "ionicons/icons";
 import SprintServices from "../../services/sprint";
 import "./index.scss";
 import { Link } from "react-router-dom";
-
-interface Sprint {
-  id: number;
-  title: string;
-  subtitle: string;
-  link?: string;
-  order?: number;
-  updatedAt: string;
-  createdAt: string;
-}
+import { ISprint } from "../../models/Sprint";
 
 interface OwnProps {}
 
@@ -25,7 +16,7 @@ interface DispatchProps {}
 interface SprintProps extends OwnProps, StateProps, DispatchProps {}
 
 const Sprint: React.FC<SprintProps> = () => {
-  const [sprints, setSprints] = useState<Sprint[]>([]);
+  const [sprints, setSprints] = useState<ISprint[]>([]);
 
   useEffect(() => {
     (async function () {
@@ -35,24 +26,14 @@ const Sprint: React.FC<SprintProps> = () => {
   }, []);
 
   return sprints.length ? (
-    <IonSlides
-      className="sprint"
-      pager={true}
-      // options={{
-      //   pagination: {
-      //     el: ".sprint .swiper-pagination",
-      //     dynamicBullets: true,
-      //     dynamicMainBullets: 4,
-      //   },
-      // }}
-    >
-      {sprints.map((sprint: Sprint) => {
+    <IonSlides className="sprint" pager={true}>
+      {sprints.map((sprint: ISprint) => {
         return (
           <IonSlide className="sprint__slide" key={sprint.id}>
             <div
               className="sprint__wrap"
               style={{
-                backgroundImage: `url(assets/img/sprint_1.jpg)`,
+                backgroundImage: `url(${sprint.image})`,
               }}
             >
               <div>
@@ -60,11 +41,7 @@ const Sprint: React.FC<SprintProps> = () => {
                 <p className="sprint__subtitle">{sprint.subtitle}</p>
                 {sprint.link && (
                   <Link to={sprint.link}>
-                    <IonButton
-                      fill="outline"
-                      size="small"
-                      className="sprint__btn"
-                    >
+                    <IonButton size="small" className="sprint__btn">
                       Більше
                       <IonIcon icon={chevronForward}></IonIcon>
                     </IonButton>

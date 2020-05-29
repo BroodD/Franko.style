@@ -6,7 +6,7 @@ export interface ConfState {
   cart: ICartProduct[];
   products: IProduct[];
   productsPage: number;
-  loading?: boolean;
   error: string;
   categories: ICategory[];
+  loading?: boolean;
 }

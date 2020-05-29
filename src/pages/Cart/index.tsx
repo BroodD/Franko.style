@@ -28,12 +28,14 @@ import PageHeader from "../../components/PageHeader";
 import { ellipsisHorizontal, pencil, trash, close } from "ionicons/icons";
 import "./index.scss";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface OwnProps extends RouteComponentProps {}
 
 interface StateProps {
   cartProducts: ICartProduct[];
   isLoggedin: boolean;
+  loading?: boolean;
 }
 
 interface DispatchProps {
@@ -47,10 +49,12 @@ interface LovedProps extends OwnProps, StateProps, DispatchProps {}
 const Loved: React.FC<LovedProps> = ({
   cartProducts,
   isLoggedin,
+  loading,
   loadCartProducts,
   updateCountCart,
   removeCart,
 }) => {
+  const [t] = useTranslation();
   const [modalCartId, setModalCartId] = useState(0);
   const [actionSheetCartId, setActionSheetCartId] = useState(0);
   const modalRef = useRef<HTMLIonModalElement>(null);
@@ -66,12 +70,10 @@ const Loved: React.FC<LovedProps> = ({
 
   return (
     <IonPage>
+      <PageHeader title="cart" />
       <IonContent>
-        <PageHeader title="cart" />
         {isLoggedin ? (
-          !cartProducts.length ? (
-            <ErrorPage error="empty_cart" image="assets/img/empty_cart.svg" />
-          ) : (
+          cartProducts.length ? (
             <Fragment>
               <IonGrid className="cart-grid">
                 {cartProducts.map((cartProduct) => {
@@ -149,7 +151,7 @@ const Loved: React.FC<LovedProps> = ({
                   грн
                 </div>
                 <IonButton expand="block" color="dark">
-                  Оформити замовлення
+                  {t("make_offer")}
                 </IonButton>
               </IonCardContent>
 
@@ -174,6 +176,10 @@ const Loved: React.FC<LovedProps> = ({
                 ]}
               ></IonActionSheet>
             </Fragment>
+          ) : (
+            !loading && (
+              <ErrorPage error="empty_cart" image="assets/img/empty_cart.svg" />
+            )
           )
         ) : (
           <ErrorPage error="you_are_not_authorized" />
@@ -187,6 +193,7 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
     cartProducts: state.data.cart,
     isLoggedin: state.user.isLoggedin,
+    loading: state.data.loading,
   }),
   mapDispatchToProps: {
     loadCartProducts,

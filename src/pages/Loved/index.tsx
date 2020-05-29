@@ -20,6 +20,7 @@ interface OwnProps extends RouteComponentProps {}
 interface StateProps {
   products: any[];
   isLoggedin: boolean;
+  loading?: boolean;
 }
 
 interface DispatchProps {
@@ -31,6 +32,7 @@ interface LovedProps extends OwnProps, StateProps, DispatchProps {}
 const Loved: React.FC<LovedProps> = ({
   products,
   isLoggedin,
+  loading,
   loadLovedProducts,
 }) => {
   const handleScrollEnd = async (e: any) => {
@@ -44,12 +46,10 @@ const Loved: React.FC<LovedProps> = ({
 
   return (
     <IonPage>
+      <PageHeader title="loved" />
       <IonContent>
-        <PageHeader title="loved" />
         {isLoggedin ? (
-          !products.length ? (
-            <ErrorPage error="empty_loved" image="assets/img/empty_loved.svg" />
-          ) : (
+          products.length ? (
             <Fragment>
               <IonGrid>
                 <IonRow>
@@ -72,6 +72,13 @@ const Loved: React.FC<LovedProps> = ({
                 <IonInfiniteScrollContent></IonInfiniteScrollContent>
               </IonInfiniteScroll>
             </Fragment>
+          ) : (
+            !loading && (
+              <ErrorPage
+                error="empty_loved"
+                image="assets/img/empty_loved.svg"
+              />
+            )
           )
         ) : (
           <ErrorPage error="you_are_not_authorized" />
@@ -85,6 +92,7 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
     products: state.data.loved,
     isLoggedin: state.user.isLoggedin,
+    loading: state.data.loading,
   }),
   mapDispatchToProps: {
     loadLovedProducts,

@@ -1,11 +1,35 @@
 {
-  "you_are_not_authorized": "Ви не авторизовані",
   "Network Error": "Проблема мережі",
+  "not_valid": "Погані введені дані",
+  "you_are_not_authorized": "Ви не авторизовані",
+  "email_not_valid": "Email не вірний",
+  "password_to_short": "Пароль закороткий",
+  "user_with_that_email_already_exists": "Користувач із цим email вже існує",
+  "user_not_found": "Користувача не знайдено",
+  "not_found": "Нічого не знайдено",
+  "product_not_have_this_size": "Товар не має цього розміру",
+  "not_have_more_product_with_this_size": "Товару з цим розміром більше немає",
+  "product_already_in_cart": "Товар вже є у кошику",
+  "max_cart_size": "Кошик повний (макс: 10 товарів)",
+
+  "added_to_cart": "Додано у кошик",
+
   "categories": "Категорії",
   "empty_cart": "Корзина пуста",
   "empty_loved": "Немає улюблених товарів",
   "account": "Акаунт",
   "cart": "Кошик",
   "loved": "Вибране",
-  "more": "Більше"
+  "more": "Більше",
+  "about": "Про нас",
+
+  "language": "Мова",
+  "description": "Опис",
+  "sizes": "Розміри",
+	"price": "Ціна",
+	"logout": "Вийти",
+
+  "make_offer": "Оформити замовлення",
+  "change": "Змінити",
+  "add_to_cart": "Додати у кошик"
 }
