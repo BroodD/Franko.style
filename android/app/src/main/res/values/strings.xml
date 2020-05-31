@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">FrankoFoods</string>
-    <string name="title_activity_main">FrankoFoods</string>
-    <string name="package_name">franko.foods</string>
-    <string name="custom_url_scheme">franko.foods</string>
+    <string name="app_name">FrankoShop</string>
+    <string name="title_activity_main">FrankoShop</string>
+    <string name="package_name">franko.shop</string>
+    <string name="custom_url_scheme">franko.shop</string>
 </resources>

@@ -18,6 +18,7 @@ import { RouteComponentProps } from "react-router";
 import { mailOutline, lockClosedOutline, arrowForward } from "ionicons/icons";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/auth";
+import { useTranslation } from "react-i18next";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -33,6 +34,7 @@ const Login: React.FC<LoginProps> = ({
   history,
   setUserProfile,
 }) => {
+  const [t] = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "", msg: "" });
@@ -85,7 +87,7 @@ const Login: React.FC<LoginProps> = ({
                 {errors.msg && (
                   <IonText color="danger">
                     <p className="ion-padding-start field__error">
-                      {errors.msg}
+                      {t(errors.msg)}
                     </p>
                   </IonText>
                 )}
@@ -111,7 +113,7 @@ const Login: React.FC<LoginProps> = ({
                 {errors.email && (
                   <IonText color="danger">
                     <p className="ion-padding-start field__error">
-                      {errors.email}
+                      {t(errors.email)}
                     </p>
                   </IonText>
                 )}
@@ -134,14 +136,14 @@ const Login: React.FC<LoginProps> = ({
                 {errors.password && (
                   <IonText color="danger">
                     <p className="ion-padding-start field__error">
-                      {errors.password}
+                      {t(errors.password)}
                     </p>
                   </IonText>
                 )}
 
-                <div className="ion-text-center">
+                {/* <div className="ion-text-center">
                   <p>Забули пароль?</p>
-                </div>
+                </div> */}
               </IonCol>
             </IonRow>
 
@@ -152,10 +154,9 @@ const Login: React.FC<LoginProps> = ({
                   shape="round"
                   expand="block"
                   className="shadow-0 btn-padd"
-                  // disabled={!email || !password}
                 >
                   <IonIcon slot="start" icon={arrowForward} />
-                  Вхід
+                  {t("login")}
                 </IonButton>
               </IonCol>
             </IonRow>
@@ -164,7 +165,7 @@ const Login: React.FC<LoginProps> = ({
           <Link to="signup">
             <IonRow className="auth__bottom ion-text-center">
               <IonCol>
-                <p className="ion-text-uppercase">Створити акаунт</p>
+                <p className="ion-text-uppercase">{t("signup")}</p>
               </IonCol>
             </IonRow>
           </Link>

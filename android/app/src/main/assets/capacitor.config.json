@@ -1,6 +1,6 @@
 {
-  "appId": "franko.foods",
-  "appName": "FrankoFoods",
+  "appId": "franko.shop",
+  "appName": "FrankoShop",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",

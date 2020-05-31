@@ -23,6 +23,7 @@ import {
 } from "ionicons/icons";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/auth";
+import { useTranslation } from "react-i18next";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -38,6 +39,7 @@ const Login: React.FC<LoginProps> = ({
   history,
   setUserProfile,
 }) => {
+  const [t] = useTranslation();
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -103,7 +105,7 @@ const Login: React.FC<LoginProps> = ({
                 {formSubmitted && errors.phone && (
                   <IonText color="danger">
                     <p className="ion-padding-start field__error">
-                      {errors.phone}
+                      {t(errors.phone)}
                     </p>
                   </IonText>
                 )}
@@ -126,7 +128,7 @@ const Login: React.FC<LoginProps> = ({
                 {formSubmitted && errors.email && (
                   <IonText color="danger">
                     <p className="ion-padding-start field__error">
-                      {errors.email}
+                      {t(errors.email)}
                     </p>
                   </IonText>
                 )}
@@ -146,7 +148,7 @@ const Login: React.FC<LoginProps> = ({
                 {formSubmitted && errors.password && (
                   <IonText color="danger">
                     <p className="ion-padding-start field__error">
-                      {errors.password}
+                      {t(errors.password)}
                     </p>
                   </IonText>
                 )}
@@ -162,7 +164,7 @@ const Login: React.FC<LoginProps> = ({
                   className="shadow-0 btn-padd"
                 >
                   <IonIcon slot="start" icon={arrowForward} />
-                  Створити акаунт
+                  {t("signup")}
                 </IonButton>
               </IonCol>
             </IonRow>
@@ -171,7 +173,7 @@ const Login: React.FC<LoginProps> = ({
           <Link to="login">
             <IonRow className="auth__bottom ion-text-center">
               <IonCol>
-                <p className="ion-text-uppercase">Вхід</p>
+                <p className="ion-text-uppercase">{t("login")}</p>
               </IonCol>
             </IonRow>
           </Link>

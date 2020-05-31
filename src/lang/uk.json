@@ -2,7 +2,7 @@
   "Network Error": "Проблема мережі",
   "not_valid": "Погані введені дані",
   "you_are_not_authorized": "Ви не авторизовані",
-  "email_not_valid": "Email не вірний",
+  "email_not_valid": "Email невірний",
   "password_to_short": "Пароль закороткий",
   "user_with_that_email_already_exists": "Користувач із цим email вже існує",
   "user_not_found": "Користувача не знайдено",
@@ -26,10 +26,12 @@
   "language": "Мова",
   "description": "Опис",
   "sizes": "Розміри",
-	"price": "Ціна",
-	"logout": "Вийти",
+  "price": "Ціна",
+  "logout": "Вийти",
 
   "make_offer": "Оформити замовлення",
   "change": "Змінити",
-  "add_to_cart": "Додати у кошик"
+  "add_to_cart": "Додати у кошик",
+  "login": "Вхід",
+  "signup": "Створити акаунт"
 }

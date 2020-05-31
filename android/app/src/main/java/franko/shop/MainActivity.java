@@ -1,4 +1,4 @@
-package franko.foods;
+package franko.shop;
 
 import android.os.Bundle;
 

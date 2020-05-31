@@ -1,11 +1,37 @@
 {
-  "you_are_not_authorized": "Вы не авторизованы",
   "Network Error": "Проблема сети",
+  "not_valid": "Неверные входные данные",
+  "you_are_not_authorized": "Вы не авторизованы",
+  "email_not_valid": "Email неверный",
+  "password_to_short": "Пароль короткий",
+  "user_with_that_email_already_exists": "Пользователь с этим email уже существует",
+  "user_not_found": "Пользователя не найдено",
+  "not_found": "Ничего не найдено",
+  "product_not_have_this_size": "Товар не имеет этого размера",
+  "not_have_more_product_with_this_size": "Товара с этим размером больше нет",
+  "product_already_in_cart": "Товар уже есть в корзине",
+  "max_cart_size": "Корзина полный (макс: 10 товаров)",
+
+  "added_to_cart": "Отправлен в корзину",
+
   "categories": "Категории",
   "empty_cart": "Корзина пуста",
   "empty_loved": "Нет любимых товаров",
   "account": "Аккаунт",
   "cart": "Корзина",
   "loved": "Избранное",
-  "more": "Больше"
+  "more": "Больше",
+  "about": "О нас",
+
+  "language": "Язык",
+  "description": "Описание",
+  "sizes": "Размеры",
+  "price": "Цена",
+  "logout": "Выйти",
+
+  "make_offer": "Оформить заказ",
+  "change": "Изменить",
+  "add_to_cart": "Добавить в корзину",
+  "login": "Вход",
+  "signup": "Создать аккаунт"
 }
