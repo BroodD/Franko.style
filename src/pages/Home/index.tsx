@@ -47,6 +47,7 @@ const Home: React.FC<LovedProps> = ({
 
   useEffect(() => {
     loadProducts(1, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedin]);
 
   return (

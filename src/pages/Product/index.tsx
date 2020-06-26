@@ -85,6 +85,7 @@ const Product: React.FC<ProductProps> = ({
     } catch (err) {
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (

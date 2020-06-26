@@ -73,6 +73,7 @@ const Category: React.FC<CategoryProps> = ({ category, setError }) => {
     loadProducts();
     // return () => {
     // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
 
   if (!category) {

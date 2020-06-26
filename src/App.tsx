@@ -3,14 +3,12 @@ import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
   IonRouterOutlet,
-  IonSplitPane,
   IonTabs,
   IonTabBar,
   IonTabButton,
   IonIcon,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import Menu from "./components/Menu";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -115,9 +113,11 @@ const IonicApp: React.FC<IonicAppProps> = ({
   useEffect(() => {
     loadUserData();
     loadCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     i18n.changeLanguage(stateLang);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateLang]);
 
   return loading ? (

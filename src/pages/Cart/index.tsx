@@ -61,6 +61,7 @@ const Loved: React.FC<LovedProps> = ({
 
   useEffect(() => {
     loadCartProducts(!isLoggedin);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedin]);
 
   const handleChangeCount = (cartId: number, count: number) => {

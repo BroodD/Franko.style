@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { IonContent, IonPage, IonCardContent } from "@ionic/react";
 import "./index.scss";
 import PageHeader from "../../components/PageHeader";
