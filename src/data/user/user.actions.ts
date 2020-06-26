@@ -41,9 +41,7 @@ export const setIsLoggedIn = (loggedIn: boolean) => async () => {
   } as const;
 };
 
-export const setUserProfile = (data: Partial<UserState>) => async (
-  dispatch: React.Dispatch<any>
-) => {
+export const setUserProfile = (data: Partial<UserState>) => async () => {
   await setUserProfileData(data);
   // dispatch(loadUserData);
   axios.defaults.headers.common["authorization"] = data.token;

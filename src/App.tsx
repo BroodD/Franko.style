@@ -111,7 +111,7 @@ const IonicApp: React.FC<IonicAppProps> = ({
   loadUserData,
   loadCategories,
 }) => {
-  const [t, i18n] = useTranslation();
+  const [, i18n] = useTranslation();
   useEffect(() => {
     loadUserData();
     loadCategories();
@@ -125,49 +125,47 @@ const IonicApp: React.FC<IonicAppProps> = ({
   ) : (
     <IonApp>
       <IonReactRouter>
-        <IonSplitPane contentId="main-content">
-          <ErrorToast />
+        <ErrorToast />
 
-          <IonTabs>
-            <IonRouterOutlet id="main-content">
-              <Route path="/tutorial" component={Tutorial} />
-              <Route path="/about" component={About} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/home" component={Home} />
-              <Route path="/cart" component={Cart} />
-              <Route path="/loved" component={Loved} />
-              <Route path="/more" component={More} />
-              <Route path="/account" component={Account} />
-              <Route path="/categories" component={Categories} />
-              <Route path="/category/:id" component={Category} exact />
-              <Route path="/product/:id" component={Product} />
-              <Route
-                path="/logout"
-                render={() => {
-                  setIsLoggedIn(false);
-                  setUserProfile({});
-                  return <Redirect to="/login" />;
-                }}
-              />
-              <Route path="/" component={Home} exact />
-            </IonRouterOutlet>
-            <IonTabBar slot="bottom">
-              <IonTabButton tab="home" href="/home">
-                <IonIcon icon={homeOutline} />
-              </IonTabButton>
-              <IonTabButton tab="cart" href="/cart">
-                <IonIcon icon={cartOutline} />
-              </IonTabButton>
-              <IonTabButton tab="map" href="/loved">
-                <IonIcon icon={heartOutline} />
-              </IonTabButton>
-              <IonTabButton tab="more" href="/more">
-                <IonIcon icon={ellipsisHorizontal} />
-              </IonTabButton>
-            </IonTabBar>
-          </IonTabs>
-        </IonSplitPane>
+        <IonTabs>
+          <IonRouterOutlet id="main-content">
+            <Route path="/tutorial" component={Tutorial} />
+            <Route path="/about" component={About} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/home" component={Home} />
+            <Route path="/cart" component={Cart} />
+            <Route path="/loved" component={Loved} />
+            <Route path="/more" component={More} />
+            <Route path="/account" component={Account} />
+            <Route path="/categories" component={Categories} />
+            <Route path="/category/:id" component={Category} exact />
+            <Route path="/product/:id" component={Product} />
+            <Route
+              path="/logout"
+              render={() => {
+                setIsLoggedIn(false);
+                setUserProfile({});
+                return <Redirect to="/login" />;
+              }}
+            />
+            <Route path="/" component={Home} exact />
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="home" href="/home">
+              <IonIcon icon={homeOutline} />
+            </IonTabButton>
+            <IonTabButton tab="cart" href="/cart">
+              <IonIcon icon={cartOutline} />
+            </IonTabButton>
+            <IonTabButton tab="map" href="/loved">
+              <IonIcon icon={heartOutline} />
+            </IonTabButton>
+            <IonTabButton tab="more" href="/more">
+              <IonIcon icon={ellipsisHorizontal} />
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
       </IonReactRouter>
     </IonApp>
   );
