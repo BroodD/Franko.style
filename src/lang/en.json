@@ -1,0 +1,42 @@
+{
+  "Network Error": "Network Error",
+  "not_valid": "Not valid data",
+  "you_are_not_authorized": "You are not authorized",
+  "email_not_valid": "Email not valid",
+  "password_to_short": "Password to short",
+  "user_with_that_email_already_exists": "User with that email already exists",
+  "user_not_found": "User not found",
+  "not_found": "Not found",
+  "product_not_have_this_size": "Product not have this size",
+  "not_have_more_product_with_this_size": "Not have more product with this size",
+  "product_already_in_cart": "Product already in cart",
+  "max_cart_size": "Max cart size",
+
+  "added_to_cart": "Added to cart",
+
+  "categories": "Categories",
+  "empty_cart": "Empty cart list",
+  "empty_loved": "Empty loved list",
+  "account": "Account",
+  "cart": "Cart",
+  "loved": "Loved",
+  "more": "More",
+  "about": "About",
+
+  "language": "Language",
+  "description": "Description",
+  "sizes": "Sizes",
+  "price": "Price",
+  "logout": "Logout",
+
+  "make_offer": "Buy",
+  "change": "Edit",
+  "add_to_cart": "Add to cart",
+  "login": "Sign in",
+  "signup": "Sign up",
+
+  "max_count": "Max count",
+  "product_price": "Price",
+  "ammount": "Ammount",
+  "cancel": "Cancel"
+}

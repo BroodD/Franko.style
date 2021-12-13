@@ -7,6 +7,7 @@ import {
 } from "@ionic/react";
 import { remove, add } from "ionicons/icons";
 import "./index.scss";
+import { useTranslation } from "react-i18next";
 
 interface CartChangeCountProps {
   cartId: number;
@@ -26,6 +27,7 @@ const CartChangeCount: React.FC<CartChangeCountProps> = ({
   onDismiss,
 }) => {
   const [count, setCount] = useState(initialCount);
+  const [t] = useTranslation();
 
   return (
     <Fragment>
@@ -51,11 +53,15 @@ const CartChangeCount: React.FC<CartChangeCountProps> = ({
 
       <IonCardContent className="change__body">
         <div className="change__row">
-          <p>Вартість товару </p>
+          <p>{t("max_count")} </p>
+          <h3>{maxCount} шт.</h3>
+        </div>
+        <div className="change__row">
+          <p>{t("product_price")} </p>
           <h3>{price} грн</h3>
         </div>
         <div className="change__row">
-          <p>Разом </p>
+          <p>{t("ammount")} </p>
           <h3>{price * count} грн</h3>
         </div>
       </IonCardContent>
@@ -67,7 +73,7 @@ const CartChangeCount: React.FC<CartChangeCountProps> = ({
           size="large"
           onClick={() => onChangeCount(cartId, count)}
         >
-          Змінити
+          {t("change")}
         </IonButton>
 
         <IonButton
@@ -77,7 +83,7 @@ const CartChangeCount: React.FC<CartChangeCountProps> = ({
           size="large"
           onClick={() => onDismiss()}
         >
-          Скасувати
+          {t("cancel")}
         </IonButton>
       </IonCardContent>
     </Fragment>

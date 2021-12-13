@@ -54,8 +54,8 @@ const More: React.FC<MoreProps> = ({ stateLang, setLang }) => {
           <IonSegmentButton value="uk">
             <IonImg src="assets/icon/uk.svg" />
           </IonSegmentButton>
-          <IonSegmentButton value="ru">
-            <IonImg src="assets/icon/ru.svg" />
+          <IonSegmentButton value="en">
+            <IonImg src="assets/icon/en.png" />
           </IonSegmentButton>
         </IonSegment>
 
